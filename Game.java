@@ -2,6 +2,8 @@ import java.util.*;
 
 public class Game {
     static Scanner in;
+    static boolean Stop;
+
     final static String O = "O";
     final static String X = "X";
     final static String DRAW = "DRAW";
@@ -13,7 +15,9 @@ public class Game {
         Player playerX = new Player(X);
         Player playerO = new Player(O);
 
-        while (true) {
+        Stop = false;
+
+        while (!Stop) {
             Board board = new Board();
             Player currentmove = playerX;
             in = new Scanner(System.in);
@@ -69,12 +73,12 @@ public class Game {
             }
 
             if (stringInput.equals(YES)) {
-                continue;
+                Stop = false;
             }
 
             if (stringInput.equals(NO)) {
                 printSummary(playerX, playerO);
-                break;
+                Stop = true;
             }
 
         }
