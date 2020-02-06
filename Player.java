@@ -1,10 +1,12 @@
 public class Player {
     private String name;
     private String player;
-    private int score;
+    private int win;
+    private int lose;
+    private int draw;
 
-    Player(String player, String name) {
-        this.name = name;
+    Player(String player) {
+        this.name = "default name";
         this.player = player;
     }
 
@@ -16,11 +18,27 @@ public class Player {
         return this.name;
     }
 
-    public int getScore() {
-        return this.score;
+    public int getWin() {
+        return this.win;
     }
 
-    public int setScore() {
-        return this.score += 1;
+    public int getLose() {
+        return this.lose;
+    }
+
+    public int getDraw() {
+        return this.draw;
+    }
+
+    public int win() {
+        return this.win += 1;
+    }
+
+    public int lose() {
+        return this.lose += 1;
+    }
+
+    public int draw() {
+        return this.draw += 1;
     }
 }

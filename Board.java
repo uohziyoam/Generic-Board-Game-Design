@@ -50,10 +50,12 @@ public class Board {
     public boolean move(int index, String player) {
         try {
             if (!(index > 0 && index <= 9)) {
+                System.out.println("");
                 System.out.println("Invalid input; re-enter slot number:");
                 return false;
             }
         } catch (InputMismatchException e) {
+            System.out.println("");
             System.out.println("Invalid input; re-enter slot number:");
             return false;
         }
@@ -62,6 +64,7 @@ public class Board {
             Coordinate coor = INT_TO_COORDINATE[index - 1];
             this.board[coor.x][coor.y] = player;
         } else {
+            System.out.println("");
             System.out.println("Slot already taken; re-enter slot number:");
             return false;
         }
