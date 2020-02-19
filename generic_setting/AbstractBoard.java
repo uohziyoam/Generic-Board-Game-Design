@@ -1,5 +1,7 @@
+package generic_setting;
 
-
+import coordinate.*;
+import constants.*;
 
 public abstract class AbstractBoard {
     protected Cell[][] board;
@@ -7,7 +9,7 @@ public abstract class AbstractBoard {
     protected int col;
     protected IndexMap indexMap;
 
-    AbstractBoard(int row, int col) {
+    protected AbstractBoard(int row, int col) {
         System.out.println("AbstractBoard: 8");
         this.row = row;
         this.col = col;

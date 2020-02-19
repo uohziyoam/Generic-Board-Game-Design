@@ -1,4 +1,7 @@
+import generic_setting.*;
 import java.util.Scanner;
+import game_list.tic_tac_toe.*;
+import game_list.order_and_chaos.*;
 
 public class GameMode {
 
@@ -6,6 +9,8 @@ public class GameMode {
 
     public void chooseGameMode() {
         this.gameList();
+        in = new Scanner(System.in);
+
         int numInput = in.nextInt();
         switch (numInput) {
             case 1:

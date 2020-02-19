@@ -1,3 +1,8 @@
+package game_list.order_and_chaos;
+
+import generic_setting.*;
+import constants.*;
+
 public class OrderAndChaos implements GameRule {
 
     @Override

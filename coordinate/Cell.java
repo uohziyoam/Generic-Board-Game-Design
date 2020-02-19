@@ -1,7 +1,11 @@
+package coordinate;
+
+import constants.*;
+
 public class Cell {
     private Piece state;
 
-    Cell(Piece state) {
+    public Cell(Piece state) {
         this.state = state;
     }
 

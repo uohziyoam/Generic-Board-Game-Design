@@ -1,4 +1,8 @@
+package game_list.tic_tac_toe;
+
 import java.util.Scanner;
+import constants.*;
+import generic_setting.*;
 
 public class TicTacToeGame implements GameRule {
     static Scanner in;

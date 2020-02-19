@@ -1,3 +1,6 @@
+package generic_setting;
+
+import constants.*;
 
 public class Player {
     private String nickName;
@@ -6,7 +9,7 @@ public class Player {
     private int numOfLose;
     private int numOfTie;
 
-    Player(Piece playerSign) {
+    public Player(Piece playerSign) {
         this.nickName = " default";
         this.playerSign = playerSign;
     }

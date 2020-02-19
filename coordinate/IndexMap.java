@@ -1,9 +1,11 @@
+package coordinate;
+
 public class IndexMap {
     private int row;
     private int col;
     public Coordinate[] INDEX_TO_COORDINATE;
 
-    IndexMap(int row, int col) {
+    public IndexMap(int row, int col) {
         this.row = row;
         this.col = col;
         initIndexMap();

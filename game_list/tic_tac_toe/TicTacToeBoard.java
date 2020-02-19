@@ -1,3 +1,9 @@
+package game_list.tic_tac_toe;
+
+import constants.*;
+import coordinate.*;
+import generic_setting.*;
+
 public class TicTacToeBoard extends AbstractBoard {
     private int[] rowPlayerA;
     private int[] rowPlayerB;

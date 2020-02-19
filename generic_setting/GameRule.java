@@ -1,3 +1,6 @@
+package generic_setting;
+
+import constants.*;
 
 public abstract interface GameRule {
 
