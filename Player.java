@@ -1,44 +1,75 @@
+
 public class Player {
-    private String name;
-    private String player;
-    private int win;
-    private int lose;
-    private int draw;
+    private String nickName;
+    private Piece playerSign;
+    private int numOfWin;
+    private int numOfLose;
+    private int numOfTie;
 
-    Player(String player) {
-        this.name = "default name";
-        this.player = player;
+    Player(Piece playerSign) {
+        this.nickName = " default";
+        this.playerSign = playerSign;
     }
 
-    public String getPlayer() {
-        return this.player;
+    /**
+     * @return The sign of the current player. e.g. X, O, King, Rook, Bishop.
+     */
+    public Piece getPlayerSign() {
+        return this.playerSign;
     }
 
-    public String getName() {
-        return this.name;
+    /**
+     * @return The nick name of current user.
+     */
+    public String getNickName() {
+        return this.nickName;
     }
 
+    /**
+     * @return The number of rounds that the current player has won.
+     */
     public int getWin() {
-        return this.win;
+        return this.numOfWin;
     }
 
+    /**
+     * @return The number of rounds that the current player has lost.
+     */
     public int getLose() {
-        return this.lose;
+        return this.numOfLose;
     }
 
-    public int getDraw() {
-        return this.draw;
+    /**
+     * @return The number of rounds that the current player has tied.
+     */
+    public int getTie() {
+        return this.numOfTie;
     }
 
-    public int win() {
-        return this.win += 1;
+    /**
+     * Increment number of wins if the current player has won the current round.
+     * 
+     * @return The number of rounds that the current player has won.
+     */
+    public int addWin() {
+        return this.numOfWin += 1;
     }
 
-    public int lose() {
-        return this.lose += 1;
+    /**
+     * Increment number of loss if the current player has lost the current round.
+     * 
+     * @return The number of rounds that the current player has lost.
+     */
+    public int addLose() {
+        return this.numOfLose += 1;
     }
 
-    public int draw() {
-        return this.draw += 1;
+    /**
+     * Increment number of ties if the current player has tied the current round.
+     * 
+     * @return The number of rounds that the current player has tied.
+     */
+    public int addTie() {
+        return this.numOfTie += 1;
     }
 }
