@@ -52,12 +52,13 @@ public class OrderAndChaos extends TicTacToe {
             this.printPostGameInstruction(true);
             String stringInput = in.next();
 
-            while (!stringInput.equals(InputState.Y.toString()) && !stringInput.equals(InputState.N.toString())) {
+            while (!stringInput.toUpperCase().equals(InputState.Y.toString())
+                    && !stringInput.toUpperCase().equals(InputState.N.toString())) {
                 this.printPostGameInstruction(false);
                 stringInput = in.next();
             }
 
-            if (stringInput.equals(InputState.Y.toString())) {
+            if (stringInput.toUpperCase().equals(InputState.Y.toString())) {
                 this.Stop = false;
             }
 
@@ -94,7 +95,11 @@ public class OrderAndChaos extends TicTacToe {
 
     @Override
     public void printWelcome(AbstractBoard board) {
-        super.printWelcome(board);
+        System.out.println("Welcome to Order and Chaos.");
+        System.out.println("--------------------------------");
+        board.printBoard();
+        System.out.println("");
+        System.out.println("Order will play first.");
     }
 
     public void printChoosePiece(Player currentPlayer) {
@@ -105,7 +110,7 @@ public class OrderAndChaos extends TicTacToe {
 
     public String printInvalidPiece() {
         in = new Scanner(System.in);
-        String pieceString = in.next();
+        String pieceString = in.next().toUpperCase();
 
         if (!pieceString.equals("X") && !pieceString.equals("O")) {
             System.out.println("");

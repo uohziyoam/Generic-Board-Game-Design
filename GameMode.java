@@ -43,7 +43,7 @@ public class GameMode {
 
     private void orderAndChaosInstruction() {
         System.out.println(
-                "The implementation of the game of order and chaos should only allow for play on a 6x6 board, following the original specifed winning rules");
+                "The implementation of the game of order and chaos should only allow for play on a 6x6 board, following the original specifed winning rules.");
         System.out.println(
                 "The game starts with the board empty. Order plays first, then turns alternate. On each turn, a player places either an X or an O on any open square. Once played, pieces cannot be moved, thus Order and Chaos can be played using pencil and paper.");
     }

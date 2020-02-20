@@ -60,12 +60,13 @@ public class TicTacToe implements GameRule {
             this.printPostGameInstruction(true);
             String stringInput = in.next();
 
-            while (!stringInput.equals(InputState.Y.toString()) && !stringInput.equals(InputState.N.toString())) {
+            while (!stringInput.toUpperCase().equals(InputState.Y.toString())
+                    && !stringInput.toUpperCase().equals(InputState.N.toString())) {
                 this.printPostGameInstruction(false);
                 stringInput = in.next();
             }
 
-            if (stringInput.equals(InputState.Y.toString())) {
+            if (stringInput.toUpperCase().equals(InputState.Y.toString())) {
                 this.Stop = false;
             }
 
