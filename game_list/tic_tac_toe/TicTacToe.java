@@ -4,50 +4,57 @@ import java.util.Scanner;
 import constants.*;
 import generic_setting.*;
 
-public class TicTacToeGame implements GameRule {
-    static Scanner in;
-    static boolean Stop;
-    Player playerA;
-    Player playerB;
-    Player currentTurn;
+public class TicTacToe implements GameRule {
+    protected static Scanner in;
+    protected boolean Stop;
+    protected Player[] teamA;
+    protected Player[] teamB;
+    protected Player currentTurn;
+
+    public void GameStart(int row, int col, Player[] teamA, Player[] teamB) {
+        this.teamA = teamA;
+        this.teamB = teamB;
+        this.gameProcessing(row, col);
+    }
 
     public void GameStart(int row, int col) {
-        playerA = new Player(Piece.X);
-        playerB = new Player(Piece.O);
+        this.teamA = new Player[] { new Player(Piece.X) };
+        this.teamB = new Player[] { new Player(Piece.O) };
+        this.gameProcessing(row, col);
+    }
 
-        Stop = false;
-
-        while (!Stop) {
+    @Override
+    public void gameProcessing(int row, int col) {
+        this.Stop = false;
+        while (!this.Stop) {
             TicTacToeBoard board = new TicTacToeBoard(row, col);
-            currentTurn = playerA;
+            currentTurn = teamA[0];
             in = new Scanner(System.in);
 
             this.printWelcome(board);
 
             while (!this.isEnd(board)) {
-                int numInput;
-                this.printChooseLocation(currentTurn.getPlayerSign());
-                numInput = in.nextInt();
-                this.makeMove(board, numInput, currentTurn);
+                this.printChooseLocation(currentTurn);
+                this.printInvalidLocation(board, currentTurn.getPlayerSign());
                 this.changeTurn();
             }
 
             if (board.checkStatus() == GameState.PLAYERA) {
-                this.printVictoryMessage(playerA);
-                playerA.addWin();
-                playerB.addLose();
+                this.printVictoryMessage(teamA[0]);
+                teamA[0].addWin();
+                teamB[0].addLose();
             }
 
             if (board.checkStatus() == GameState.PLAYERB) {
-                this.printVictoryMessage(playerB);
-                playerA.addWin();
-                playerB.addLose();
+                this.printVictoryMessage(teamB[0]);
+                teamA[0].addWin();
+                teamB[0].addLose();
             }
 
             if (board.checkStatus() == GameState.TIE) {
                 this.printTieMessage();
-                playerA.addTie();
-                playerB.addTie();
+                teamA[0].addTie();
+                teamB[0].addTie();
             }
 
             this.printPostGameInstruction(true);
@@ -59,13 +66,13 @@ public class TicTacToeGame implements GameRule {
             }
 
             if (stringInput.equals(InputState.Y.toString())) {
-                Stop = false;
+                this.Stop = false;
             }
 
             if (stringInput.equals(InputState.N.toString())) {
-                Player[] listOfPlayers = new Player[] { playerA, playerB };
+                Player[] listOfPlayers = new Player[] { teamA[0], teamB[0] };
                 printGameSummary(listOfPlayers);
-                Stop = true;
+                this.Stop = true;
             }
         }
     }
@@ -93,23 +100,34 @@ public class TicTacToeGame implements GameRule {
     }
 
     @Override
-    public boolean makeMove(AbstractBoard board, int index, Player player) {
-        return board.set(index, player.getPlayerSign());
+    public boolean makeMove(AbstractBoard board, int index, Piece sign) {
+        return board.set(index, sign);
     }
 
     @Override
     public void changeTurn() {
-        if (currentTurn == playerA) {
-            currentTurn = playerB;
+        if (currentTurn == teamA[0]) {
+            currentTurn = teamB[0];
         } else {
-            currentTurn = playerA;
+            currentTurn = teamA[0];
         }
     }
 
     @Override
-    public void printChooseLocation(Piece currentPlayer) {
+    public void printChooseLocation(Player currentPlayer) {
         System.out.println("");
-        System.out.print("Player " + currentPlayer + " Enter your move: ");
+        System.out.print("Player " + currentPlayer.getNickName() + " Enter your move: ");
+    }
+
+    @Override
+    public void printInvalidLocation(AbstractBoard board, Piece piece) {
+        in = new Scanner(System.in);
+        int numInput = in.nextInt();
+        boolean success = this.makeMove(board, numInput, piece);
+
+        if (!success) {
+            this.printInvalidLocation(board, piece);
+        }
     }
 
     @Override
@@ -130,7 +148,7 @@ public class TicTacToeGame implements GameRule {
     @Override
     public void printVictoryMessage(Player player) {
         System.out.println("");
-        System.out.println("Congragulations! " + player.getPlayerSign() + " won the game.");
+        System.out.println("Congragulations! " + player.getNickName() + " won the game.");
         System.out.println("");
 
     }
@@ -162,9 +180,9 @@ public class TicTacToeGame implements GameRule {
         System.out.println(":------------------------+-------------------+------------------+------------------:");
 
         for (int i = 0; i < players.length; i++) {
-            System.out.println("|        " + players[i].getNickName() + "        |         " + players[i].getWin()
-                    + "         |         " + players[i].getLose() + "        |         " + players[i].getTie()
-                    + "        |");
+            System.out.println("|        " + AbstractBoard.emptyStringGenerator(8 - players[i].getNickName().length())
+                    + players[i].getNickName() + "        |         " + players[i].getWin() + "         |         "
+                    + players[i].getLose() + "        |         " + players[i].getTie() + "        |");
             System.out.println(":------------------------+-------------------+------------------+------------------:");
         }
     }

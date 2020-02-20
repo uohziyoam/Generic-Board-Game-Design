@@ -1,5 +1,5 @@
 package constants;
 
 public enum GameState {
-    PLAYERA, PLAYERB, TIE, NOT_END
+    PLAYERA, PLAYERB, TIE, NOT_END, ORDER, CHAOS
 }

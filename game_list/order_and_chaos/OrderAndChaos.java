@@ -1,68 +1,149 @@
 package game_list.order_and_chaos;
 
+import java.util.Scanner;
+import game_list.tic_tac_toe.TicTacToe;
 import generic_setting.*;
 import constants.*;
 
-public class OrderAndChaos implements GameRule {
+public class OrderAndChaos extends TicTacToe {
 
     @Override
     public void GameStart(int row, int col) {
-        // TODO Auto-generated method stub
+        super.GameStart(row, col);
+    }
 
+    @Override
+    public void GameStart(int row, int col, Player[] teamA, Player[] teamB) {
+        super.GameStart(row, col, teamA, teamB);
+    }
+
+    @Override
+    public void gameProcessing(int row, int col) {
+        this.Stop = false;
+        while (!this.Stop) {
+            OrderAndChaosBoard board = new OrderAndChaosBoard(row, col);
+            currentTurn = teamA[0];
+            in = new Scanner(System.in);
+
+            this.printWelcome(board);
+
+            while (!this.isEnd(board)) {
+                this.printChoosePiece(currentTurn);
+                String inputPieceString = this.printInvalidPiece();
+                Piece piece = inputPieceString.equals("X") ? Piece.X : Piece.O;
+
+                this.printChooseLocation(currentTurn);
+                this.printInvalidLocation(board, piece);
+                this.changeTurn();
+            }
+
+            if (board.checkStatus() == GameState.ORDER) {
+                this.printVictoryMessage(teamA[0]);
+                teamA[0].addWin();
+                teamB[0].addLose();
+            }
+
+            if (board.checkStatus() == GameState.CHAOS) {
+                this.printVictoryMessage(teamB[0]);
+                teamA[0].addWin();
+                teamB[0].addLose();
+            }
+
+            this.printPostGameInstruction(true);
+            String stringInput = in.next();
+
+            while (!stringInput.equals(InputState.Y.toString()) && !stringInput.equals(InputState.N.toString())) {
+                this.printPostGameInstruction(false);
+                stringInput = in.next();
+            }
+
+            if (stringInput.equals(InputState.Y.toString())) {
+                this.Stop = false;
+            }
+
+            if (stringInput.equals(InputState.N.toString())) {
+                Player[] listOfPlayers = new Player[] { teamA[0], teamB[0] };
+                printGameSummary(listOfPlayers);
+                this.Stop = true;
+            }
+        }
     }
 
     @Override
     public boolean isEnd(AbstractBoard board) {
-        // TODO Auto-generated method stub
+        if (board.checkStatus() == GameState.NOT_END) {
+            return false;
+        }
+
+        if (board.checkStatus().equals(GameState.CHAOS) || board.checkStatus().equals(GameState.ORDER)) {
+            return true;
+        }
+
         return false;
     }
 
     @Override
-    public boolean makeMove(AbstractBoard board, int index, Player player) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean makeMove(AbstractBoard board, int index, Piece piece) {
+        return super.makeMove(board, index, piece);
     }
 
     @Override
     public void changeTurn() {
-        // TODO Auto-generated method stub
-
+        super.changeTurn();
     }
 
     @Override
     public void printWelcome(AbstractBoard board) {
-        // TODO Auto-generated method stub
+        super.printWelcome(board);
+    }
 
+    public void printChoosePiece(Player currentPlayer) {
+        System.out.println("");
+        System.out
+                .print("Player " + currentPlayer.getNickName() + " Enter the Piece you want to place (e.g. X or O): ");
+    }
+
+    public String printInvalidPiece() {
+        in = new Scanner(System.in);
+        String pieceString = in.next();
+
+        if (!pieceString.equals("X") && !pieceString.equals("O")) {
+            System.out.println("");
+            System.out.print("Invalid Input! Please try again! " + "Enter the Piece you want to place (e.g. X or O): ");
+            return this.printInvalidPiece();
+        }
+
+        return pieceString;
     }
 
     @Override
-    public void printChooseLocation(Piece currentPlayer) {
-        // TODO Auto-generated method stub
+    public void printChooseLocation(Player currentPlayer) {
+        super.printChooseLocation(currentPlayer);
+    }
 
+    @Override
+    public void printInvalidLocation(AbstractBoard board, Piece piece) {
+        super.printInvalidLocation(board, piece);
     }
 
     @Override
     public void printPostGameInstruction(boolean validInput) {
-        // TODO Auto-generated method stub
-
+        super.printPostGameInstruction(validInput);
     }
 
     @Override
     public void printVictoryMessage(Player player) {
-        // TODO Auto-generated method stub
-
+        super.printVictoryMessage(player);
     }
 
     @Override
     public void printTieMessage() {
-        // TODO Auto-generated method stub
-
+        super.printTieMessage();
     }
 
     @Override
     public void printGameSummary(Player[] players) {
-        // TODO Auto-generated method stub
-
+        super.printGameSummary(players);
     }
 
 }

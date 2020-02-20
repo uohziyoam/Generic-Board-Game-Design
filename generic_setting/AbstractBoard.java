@@ -40,7 +40,6 @@ public abstract class AbstractBoard {
         }
 
         Coordinate coordinate = indexMap.get(index);
-        // indexMap.print();
 
         return this.board[coordinate.row][coordinate.col];
     };
@@ -57,9 +56,6 @@ public abstract class AbstractBoard {
             return false;
         }
 
-        System.out.println(index);
-        System.out.println(piece);
-
         Cell cell = new Cell(piece);
         if (this.isEmpty(index)) {
             Coordinate coordinate = indexMap.get(index);
@@ -69,12 +65,6 @@ public abstract class AbstractBoard {
             System.out.println("Slot already taken; re-enter slot number:");
             return false;
         }
-
-        // for (Cell[] cells : board) {
-        // for (Cell cella : cells) {
-        // System.out.println(cella.getState());
-        // }
-        // }
 
         this.printBoard();
         return true;
@@ -131,7 +121,7 @@ public abstract class AbstractBoard {
         }
     };
 
-    static String emptyStringGenerator(int n) {
+    public static String emptyStringGenerator(int n) {
         String str = "";
 
         for (int i = 0; i < n; i++) {

@@ -10,6 +10,16 @@ public abstract interface GameRule {
     public void GameStart(int row, int col);
 
     /**
+     * It executes the whole game.
+     */
+    public void GameStart(int row, int col, Player[] teamA, Player[] teamB);
+
+    /**
+     * It processes the logic of the game.
+     */
+    public void gameProcessing(int row, int col);
+
+    /**
      * @return <tt>true</tt> if the game is over.
      */
     public boolean isEnd(AbstractBoard board);
@@ -19,7 +29,7 @@ public abstract interface GameRule {
      * @param player current player.
      * @return <tt>true</tt> if this move is valid.
      */
-    boolean makeMove(AbstractBoard board, int index, Player player);
+    boolean makeMove(AbstractBoard board, int index, Piece sign);
 
     /**
      * It exchanges the turn of current game.
@@ -34,7 +44,12 @@ public abstract interface GameRule {
     /**
      * It prints the instruction to choose location during the game.
      */
-    void printChooseLocation(Piece currentPlayer);
+    void printChooseLocation(Player currentPlayer);
+
+    /**
+     * It prints the alert when the user enter invalid location during the game.
+     */
+    void printInvalidLocation(AbstractBoard board, Piece piece);
 
     /**
      * It prints the instruction after the game.

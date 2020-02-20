@@ -5,19 +5,19 @@ import coordinate.*;
 import generic_setting.*;
 
 public class TicTacToeBoard extends AbstractBoard {
-    private int[] rowPlayerA;
-    private int[] rowPlayerB;
+    protected int[] rowPlayerA;
+    protected int[] rowPlayerB;
 
-    private int[] colPlayerA;
-    private int[] colPlayerB;
+    protected int[] colPlayerA;
+    protected int[] colPlayerB;
 
-    private int[] diagPlayerA;
-    private int[] diagPlayerB;
+    protected int[] diagPlayerA;
+    protected int[] diagPlayerB;
 
-    private int[] antiDiagPlayerA;
-    private int[] antiDiagPlayerB;
+    protected int[] antiDiagPlayerA;
+    protected int[] antiDiagPlayerB;
 
-    TicTacToeBoard(int row, int col) {
+    protected TicTacToeBoard(int row, int col) {
         super(row, col);
         this.initBoard();
 
@@ -108,24 +108,6 @@ public class TicTacToeBoard extends AbstractBoard {
 
     @Override
     public GameState checkStatus() {
-        // System.out.print("rowPlayerA: ");
-        // printAll(rowPlayerA);
-        // System.out.print("colPlayerA: ");
-        // printAll(colPlayerA);
-        // System.out.print("diagPlayerA: ");
-        // printAll(diagPlayerA);
-        // System.out.print("antiDiagPlayerA: ");
-        // printAll(antiDiagPlayerA);
-
-        // System.out.print("rowPlayerB: ");
-        // printAll(rowPlayerB);
-        // System.out.print("colPlayerB: ");
-        // printAll(colPlayerB);
-        // System.out.print("diagPlayerB: ");
-        // printAll(diagPlayerB);
-        // System.out.print("antiDiagPlayerB: ");
-        // printAll(antiDiagPlayerB);
-
         if (sum(diagPlayerA) == row || sum(antiDiagPlayerA) == row) {
             return GameState.PLAYERA;
         }
@@ -155,7 +137,7 @@ public class TicTacToeBoard extends AbstractBoard {
         super.printBoard();
     }
 
-    static void printAll(int[] arr) {
+    public static void printAll(int[] arr) {
         for (int i : arr) {
             System.out.print(i);
             System.out.print(" ");
@@ -163,7 +145,7 @@ public class TicTacToeBoard extends AbstractBoard {
         System.out.println("");
     }
 
-    static int sum(int[] arr) {
+    public static int sum(int[] arr) {
         int sum = 0;
 
         for (int i = 0; i < arr.length; i++)

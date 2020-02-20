@@ -14,6 +14,11 @@ public class Player {
         this.playerSign = playerSign;
     }
 
+    public Player(Piece playerSign, String name) {
+        this.nickName = name;
+        this.playerSign = playerSign;
+    }
+
     /**
      * @return The sign of the current player. e.g. X, O, King, Rook, Bishop.
      */
