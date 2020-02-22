@@ -54,6 +54,7 @@ Enter the size of the board (e.g. 3x3):
 ```
 Enter your desired nick name (e.g. Mike):
 Beck
+
 Enter your desired nick name (e.g. Mike): 
 Ted
 ```
@@ -74,6 +75,7 @@ To play the game again, type **(Y/N)** into the terminal or command.
 ```
 Enter your desired nick name (e.g. Mike):
 Beck
+
 Enter your desired nick name (e.g. Mike): 
 Ted
 ```
