@@ -33,7 +33,7 @@ public class OrderAndChaos extends TicTacToe {
                 Piece piece = inputPieceString.equals("X") ? Piece.X : Piece.O;
 
                 this.printChooseLocation(currentTurn);
-                this.printInvalidLocation(board, piece);
+                this.printInvalidLocation(board, piece, currentTurn);
                 this.changeTurn();
             }
 
@@ -68,6 +68,8 @@ public class OrderAndChaos extends TicTacToe {
                 this.Stop = true;
             }
         }
+        GameMode mode = new GameMode();
+        mode.chooseGame();
     }
 
     @Override
@@ -127,8 +129,8 @@ public class OrderAndChaos extends TicTacToe {
     }
 
     @Override
-    public void printInvalidLocation(AbstractBoard board, Piece piece) {
-        super.printInvalidLocation(board, piece);
+    public void printInvalidLocation(AbstractBoard board, Piece piece, Player currentPlayer) {
+        super.printInvalidLocation(board, piece, currentPlayer);
     }
 
     @Override

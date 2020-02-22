@@ -49,7 +49,7 @@ public abstract interface GameRule {
     /**
      * It prints the alert when the user enter invalid location during the game.
      */
-    void printInvalidLocation(AbstractBoard board, Piece piece);
+    void printInvalidLocation(AbstractBoard board, Piece piece, Player currentPlayer);
 
     /**
      * It prints the instruction after the game.

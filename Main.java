@@ -1,3 +1,4 @@
+import generic_setting.*;
 
 public class Main {
 

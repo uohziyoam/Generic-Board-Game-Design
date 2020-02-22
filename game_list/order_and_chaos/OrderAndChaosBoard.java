@@ -41,7 +41,6 @@ public class OrderAndChaosBoard extends TicTacToeBoard {
         return super.set(index, piece);
     }
 
-    // TODO: NEED TO REDO THE CHECKING ALGORITHM FOR ORDER AND CHAOS
     @Override
     public void movePlayerA(int index, Piece piece) {
         if (index <= 0 || index > row * col) {
@@ -50,11 +49,11 @@ public class OrderAndChaosBoard extends TicTacToeBoard {
 
         Coordinate coordinate = indexMap.get(index);
         if (this.checkIsLegalLine("ROW", coordinate, piece)) {
-            rowPlayerA[coordinate.row]++;
+            rowPlayerA[coordinate.row] = this.checkLongestPath(coordinate, "ROW");
         }
 
         if (this.checkIsLegalLine("COLUMN", coordinate, piece)) {
-            colPlayerA[coordinate.col]++;
+            colPlayerA[coordinate.col] = this.checkLongestPath(coordinate, "COLUMN");
         }
 
         if (coordinate.row - 1 == coordinate.col) {
@@ -64,7 +63,7 @@ public class OrderAndChaosBoard extends TicTacToeBoard {
         }
 
         if (coordinate.row == coordinate.col) {
-            diagPlayerA[0] = this.checkLongestPath(coordinate, true);
+            diagPlayerA[0] = this.checkLongestPath(coordinate, "DIAGONAL");
             // System.out.println("diagPlayerA" + diagPlayerA[0]);
         }
 
@@ -81,7 +80,7 @@ public class OrderAndChaosBoard extends TicTacToeBoard {
         }
 
         if (coordinate.row + coordinate.col == 5) {
-            antiDiagPlayerA[0] = this.checkLongestPath(coordinate, false);
+            antiDiagPlayerA[0] = this.checkLongestPath(coordinate, "ANTIDIAGONAL");
             // System.out.println("antiDiagPlayerA" + antiDiagPlayerA[0]);
         }
 
@@ -92,7 +91,6 @@ public class OrderAndChaosBoard extends TicTacToeBoard {
         }
     }
 
-    // TODO: NEED TO REDO THE CHECKING ALGORITHM FOR ORDER AND CHAOS
     @Override
     public void movePlayerB(int index, Piece piece) {
         if (index <= 0 || index > row * col) {
@@ -101,11 +99,11 @@ public class OrderAndChaosBoard extends TicTacToeBoard {
 
         Coordinate coordinate = indexMap.get(index);
         if (this.checkIsLegalLine("ROW", coordinate, piece)) {
-            rowPlayerB[coordinate.row]++;
+            rowPlayerB[coordinate.row] = this.checkLongestPath(coordinate, "ROW");
         }
 
         if (this.checkIsLegalLine("COLUMN", coordinate, piece)) {
-            colPlayerB[coordinate.col]++;
+            colPlayerB[coordinate.col] = this.checkLongestPath(coordinate, "COLUMN");
         }
 
         if (coordinate.row - 1 == coordinate.col) {
@@ -115,7 +113,7 @@ public class OrderAndChaosBoard extends TicTacToeBoard {
         }
 
         if (coordinate.row == coordinate.col) {
-            diagPlayerB[0] = this.checkLongestPath(coordinate, true);
+            diagPlayerB[0] = this.checkLongestPath(coordinate, "DIAGONAL");
             // System.out.println("diagPlayerB" + diagPlayerB[0]);
         }
 
@@ -132,7 +130,7 @@ public class OrderAndChaosBoard extends TicTacToeBoard {
         }
 
         if (coordinate.row + coordinate.col == 5) {
-            antiDiagPlayerB[0] = this.checkLongestPath(coordinate, false);
+            antiDiagPlayerB[0] = this.checkLongestPath(coordinate, "ANTIDIAGONAL");
             // System.out.println("antiDiagPlayerB" + antiDiagPlayerB[0]);
         }
 
@@ -206,7 +204,7 @@ public class OrderAndChaosBoard extends TicTacToeBoard {
         return false;
     }
 
-    public int checkLongestPath(Coordinate start, boolean isDiag) {
+    public int checkLongestPath(Coordinate start, String direction) {
         int longestPath = 0;
         HashSet<Coordinate> set = new HashSet<>();
         Queue<Coordinate> q = new LinkedList<>();
@@ -225,12 +223,31 @@ public class OrderAndChaosBoard extends TicTacToeBoard {
             Coordinate upperNeighbor;
             Coordinate lowerNeighbor;
 
-            if (isDiag) {
-                upperNeighbor = new Coordinate(curNode.row - 1, curNode.col - 1);
-                lowerNeighbor = new Coordinate(curNode.row + 1, curNode.col + 1);
-            } else {
-                upperNeighbor = new Coordinate(curNode.row - 1, curNode.col + 1);
-                lowerNeighbor = new Coordinate(curNode.row + 1, curNode.col - 1);
+            switch (direction) {
+                case "DIAGONAL":
+                    upperNeighbor = new Coordinate(curNode.row - 1, curNode.col - 1);
+                    lowerNeighbor = new Coordinate(curNode.row + 1, curNode.col + 1);
+                    break;
+
+                case "ANTIDIAGONAL":
+                    upperNeighbor = new Coordinate(curNode.row - 1, curNode.col + 1);
+                    lowerNeighbor = new Coordinate(curNode.row + 1, curNode.col - 1);
+                    break;
+
+                case "ROW":
+                    upperNeighbor = new Coordinate(curNode.row, curNode.col - 1);
+                    lowerNeighbor = new Coordinate(curNode.row, curNode.col + 1);
+                    break;
+
+                case "COLUMN":
+                    upperNeighbor = new Coordinate(curNode.row - 1, curNode.col);
+                    lowerNeighbor = new Coordinate(curNode.row + 1, curNode.col);
+                    break;
+
+                default:
+                    upperNeighbor = new Coordinate(curNode.row - 1, curNode.col);
+                    lowerNeighbor = new Coordinate(curNode.row + 1, curNode.col);
+                    break;
             }
 
             if (this.isInMap(upperNeighbor) && !this.hasVisited(upperNeighbor, set)) {
@@ -290,10 +307,10 @@ public class OrderAndChaosBoard extends TicTacToeBoard {
         }
 
         for (int i = 0; i < antiDiagPlayerA.length; i++) {
-            if (rowPlayerA[i] == 5 || colPlayerA[i] == 5) {
+            if (rowPlayerA[i] >= 5 || colPlayerA[i] >= 5) {
                 return GameState.ORDER;
             }
-            if (rowPlayerB[i] == 5 || colPlayerB[i] == 5) {
+            if (rowPlayerB[i] >= 5 || colPlayerB[i] >= 5) {
                 return GameState.ORDER;
             }
         }

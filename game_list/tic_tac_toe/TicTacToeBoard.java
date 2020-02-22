@@ -84,10 +84,12 @@ public class TicTacToeBoard extends AbstractBoard {
     public boolean set(int index, Piece piece) {
         boolean isSuccess = super.set(index, piece);
 
-        if (piece == Piece.X) {
-            movePlayerA(index, piece);
-        } else {
-            movePlayerB(index, piece);
+        if (isSuccess) {
+            if (piece == Piece.X) {
+                movePlayerA(index, piece);
+            } else {
+                movePlayerB(index, piece);
+            }
         }
 
         return isSuccess;

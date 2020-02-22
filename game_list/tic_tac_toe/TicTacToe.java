@@ -35,7 +35,7 @@ public class TicTacToe implements GameRule {
 
             while (!this.isEnd(board)) {
                 this.printChooseLocation(currentTurn);
-                this.printInvalidLocation(board, currentTurn.getPlayerSign());
+                this.printInvalidLocation(board, currentTurn.getPlayerSign(), currentTurn);
                 this.changeTurn();
             }
 
@@ -70,12 +70,14 @@ public class TicTacToe implements GameRule {
                 this.Stop = false;
             }
 
-            if (stringInput.equals(InputState.N.toString())) {
+            if (stringInput.toUpperCase().equals(InputState.N.toString())) {
                 Player[] listOfPlayers = new Player[] { teamA[0], teamB[0] };
                 printGameSummary(listOfPlayers);
                 this.Stop = true;
             }
         }
+        GameMode mode = new GameMode();
+        mode.chooseGame();
     }
 
     @Override
@@ -100,6 +102,18 @@ public class TicTacToe implements GameRule {
         return false;
     }
 
+    private static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public boolean makeMove(AbstractBoard board, int index, Piece sign) {
         return board.set(index, sign);
@@ -121,13 +135,15 @@ public class TicTacToe implements GameRule {
     }
 
     @Override
-    public void printInvalidLocation(AbstractBoard board, Piece piece) {
+    public void printInvalidLocation(AbstractBoard board, Piece piece, Player currentPlayer) {
         in = new Scanner(System.in);
         int numInput = in.nextInt();
+
         boolean success = this.makeMove(board, numInput, piece);
 
         if (!success) {
-            this.printInvalidLocation(board, piece);
+            this.printChooseLocation(currentPlayer);
+            this.printInvalidLocation(board, piece, currentPlayer);
         }
     }
 

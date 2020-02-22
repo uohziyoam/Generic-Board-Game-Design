@@ -1,4 +1,5 @@
-import generic_setting.*;
+package generic_setting;
+
 import java.util.Scanner;
 
 import coordinate.*;
@@ -15,20 +16,26 @@ public class GameMode {
         in = new Scanner(System.in);
         Coordinate coor;
         int numInput = in.nextInt();
-        Player[] teamA = new Player[] { new Player(Piece.X, this.getUserName()) };
-        Player[] teamB = new Player[] { new Player(Piece.O, this.getUserName()) };
+        Player[] teamA;
+        Player[] teamB;
         switch (numInput) {
             case 1:
                 GameRule ticTacToe = new TicTacToe();
                 coor = this.getBoardSize();
+                teamA = new Player[] { new Player(Piece.X, this.getUserName()) };
+                teamB = new Player[] { new Player(Piece.O, this.getUserName()) };
                 ticTacToe.GameStart(coor.row, coor.col, teamA, teamB);
                 break;
             case 2:
                 GameRule orderAndChaos = new OrderAndChaos();
                 this.orderAndChaosInstruction();
+                teamA = new Player[] { new Player(Piece.X, this.getUserName()) };
+                teamB = new Player[] { new Player(Piece.O, this.getUserName()) };
                 orderAndChaos.GameStart(6, 6, teamA, teamB);
                 break;
             case 3:
+                break;
+            case 4:
                 break;
             default:
                 break;
@@ -76,6 +83,7 @@ public class GameMode {
         System.out.println("1. Simple NxN Tic Tac Toe");
         System.out.println("2. Order and Chaos");
         System.out.println("3. Stay tuned ......");
+        System.out.println("4. EXIT");
         System.out.println("Enter 1~9 to choose the game from the list: ");
     }
 }
