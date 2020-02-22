@@ -4,11 +4,11 @@
 
 The high level design of the whole project is based on the following components:
 
-* Main.java - A main enterance for the game.
-* AbstractBoard.java - An abstract class for extendibility purpose.
-* Player.java - A player class includes the required properties and methods.
-* GameRule.java - An interface includes general rules of board game for extendibility purpose.
-* GameMode.java - A game mode class provides the basic mode menu for users.
+* **Main.java** - A main enterance for the game.
+* **AbstractBoard.java** - An abstract class for extendibility purpose.
+* **Player.java** - A player class includes the required properties and methods.
+* **GameRule.java** - An interface includes general rules of board game for extendibility purpose.
+* **GameMode.java** - A game mode class provides the basic mode menu for users.
 
 ```
 ├─constants # general state and static constants
