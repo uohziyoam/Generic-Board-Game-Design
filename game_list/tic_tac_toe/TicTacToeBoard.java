@@ -82,13 +82,15 @@ public class TicTacToeBoard extends AbstractBoard {
 
     @Override
     public boolean set(int index, Piece piece) {
+        boolean isSuccess = super.set(index, piece);
+
         if (piece == Piece.X) {
             movePlayerA(index, piece);
         } else {
             movePlayerB(index, piece);
         }
 
-        return super.set(index, piece);
+        return isSuccess;
     }
 
     @Override

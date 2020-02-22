@@ -10,7 +10,6 @@ public abstract class AbstractBoard {
     protected IndexMap indexMap;
 
     protected AbstractBoard(int row, int col) {
-        System.out.println("AbstractBoard: 8");
         this.row = row;
         this.col = col;
         this.board = new Cell[row][col];

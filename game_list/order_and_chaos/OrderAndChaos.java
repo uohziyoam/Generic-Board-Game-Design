@@ -45,8 +45,8 @@ public class OrderAndChaos extends TicTacToe {
 
             if (board.checkStatus() == GameState.CHAOS) {
                 this.printVictoryMessage(teamB[0]);
-                teamA[0].addWin();
-                teamB[0].addLose();
+                teamB[0].addWin();
+                teamA[0].addLose();
             }
 
             this.printPostGameInstruction(true);
@@ -62,7 +62,7 @@ public class OrderAndChaos extends TicTacToe {
                 this.Stop = false;
             }
 
-            if (stringInput.equals(InputState.N.toString())) {
+            if (stringInput.toUpperCase().equals(InputState.N.toString())) {
                 Player[] listOfPlayers = new Player[] { teamA[0], teamB[0] };
                 printGameSummary(listOfPlayers);
                 this.Stop = true;
