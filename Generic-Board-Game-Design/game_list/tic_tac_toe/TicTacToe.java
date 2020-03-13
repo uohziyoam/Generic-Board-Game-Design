@@ -102,18 +102,6 @@ public class TicTacToe implements GameRule {
         return false;
     }
 
-    private static boolean isNumeric(String strNum) {
-        if (strNum == null) {
-            return false;
-        }
-        try {
-            double d = Double.parseDouble(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
     @Override
     public boolean makeMove(AbstractBoard board, int index, Piece sign) {
         return board.set(index, sign);
