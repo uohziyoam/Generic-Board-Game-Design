@@ -1,5 +1,6 @@
 package avatar;
 
+import board.square.Coordinate;
 import board.square.Square;
 
 /**
@@ -14,8 +15,18 @@ abstract public class Avatar extends Square {
 
     private boolean isDead;
 
-    public Avatar(String name, double hp, int level) {
+    private Coordinate curLocation;
 
+    public Avatar(String name, double hp, int level, Coordinate curLocation) {
+
+        this.name = name;
+        this.hp = hp;
+        this.level = level;
+        this.isDead = false;
+        this.curLocation = curLocation;
+    }
+
+    public Avatar(String name, double hp, int level) {
         this.name = name;
         this.hp = hp;
         this.level = level;
@@ -48,6 +59,20 @@ abstract public class Avatar extends Square {
      */
     public boolean getIsDead() {
         return isDead;
+    }
+
+    /**
+     * @return the curLocation
+     */
+    public Coordinate getCurLocation() {
+        return curLocation;
+    }
+
+    /**
+     * @param curLocation the curLocation to set
+     */
+    public void setCurLocation(Coordinate curLocation) {
+        this.curLocation = curLocation;
     }
 
     /**

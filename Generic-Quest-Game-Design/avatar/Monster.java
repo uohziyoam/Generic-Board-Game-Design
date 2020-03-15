@@ -11,7 +11,7 @@ abstract public class Monster extends Avatar {
     private double worth;
 
     public Monster(String name, double hp, int level) {
-        super(name, hp, level);
+        super(name, hp, level, null);
     }
 
     /**
