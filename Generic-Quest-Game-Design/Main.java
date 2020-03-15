@@ -1,16 +1,31 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import board.*;
+import board.square.Coordinate;
+import board.square.Market;
+import board.square.Obstacle;
 import config.*;
+import equipment.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        // Board b = new Board(10, 10);
+        Board b = new Board(8, 8);
+        b.printBoard();
 
-        System.out.println(Color.ANSI_RED + "This text is red!" + Color.ANSI_RESET);
-        System.out.println(
-                Color.ANSI_GREEN_BACKGROUND + "This text has a green background but default text!" + Color.ANSI_RESET);
-        System.out.println(Color.ANSI_RED + "This text has red text but a default background!" + Color.ANSI_RESET);
-        System.out.println(Color.ANSI_GREEN_BACKGROUND + Color.ANSI_RED
-                + "This text has a green background and red text!" + Color.ANSI_RESET);
+        // Market market = new Market();
+
+        // market.sellEquipment(Weapons.Axe);
+
+        // System.out.println(Color.ANSI_RED + "This text is red!" + Color.ANSI_RESET);
+        // System.out.println(
+        // Color.ANSI_GREEN_BACKGROUND + "This text has a green background but default
+        // text!" + Color.ANSI_RESET);
+        // System.out.println(Color.ANSI_RED + "This text has red text but a default
+        // background!" + Color.ANSI_RESET);
+        // System.out.println(Color.ANSI_GREEN_BACKGROUND + Color.ANSI_RED
+        // + "This text has a green background and red text!" + Color.ANSI_RESET);
     }
 }

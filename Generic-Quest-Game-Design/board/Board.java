@@ -1,76 +1,154 @@
 package board;
 
-import market.*;
+import java.util.*;
+
+import avatar.Hero;
+import board.square.*;
 
 public class Board {
-    private Square[][] board;
+    static int MARKET_NUMBER;
+    static int OBSTACLE_NUMBER;
+    static int COMMON_NUMBER;
+    static int CELL_NUMBER;
+
+    static HashSet<Integer> MARKET_COORDINATES;
+    static HashSet<Integer> OBSTACLE_COORDINATES;
+    static HashSet<Integer> COMMON_COORDINATES;
+
+    final static double MARKET_PERCENTAGE = 0.3;
+    final static double OBSTACLE_PERCENTAGE = 0.2;
+    final static double COMMON_PERCENTAGE = 0.5;
+
+    private Cell[][] board;
+
     private int row;
     private int col;
 
     public Board(int row, int col) {
         this.row = row;
         this.col = col;
+        CELL_NUMBER = row * col;
+
+        MARKET_NUMBER = (int) Math.round(CELL_NUMBER * MARKET_PERCENTAGE);
+        OBSTACLE_NUMBER = (int) Math.round(CELL_NUMBER * OBSTACLE_PERCENTAGE);
+        COMMON_NUMBER = (int) Math.round(CELL_NUMBER * COMMON_PERCENTAGE);
+
+        MARKET_COORDINATES = new HashSet<>();
+        OBSTACLE_COORDINATES = new HashSet<>();
+        COMMON_COORDINATES = new HashSet<>();
+
+        for (int i = 0; i < CELL_NUMBER; i++) {
+            COMMON_COORDINATES.add(i);
+        }
+
         initBoard();
     }
 
     private void initBoard() {
-        board = new Square[row][col];
+        board = new Cell[row][col];
+        squareCoordinatesGenerator();
+
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                if (isMarket(i, j)) {
-                    board[i][j] = new Market(i, j);
-                } else if (isTile(i, j)) {
-                    board[i][j] = new Tile(i, j);
-                } else {
-                    board[i][j] = new Square(i, j, true);
-                }
+                board[i][j] = new Cell(i, j);
             }
         }
 
+        for (int coor : COMMON_COORDINATES) {
+            Square cSquare = new Road();
+            board[positionToX(coor)][positionToY(coor)].setCurrentSquare(cSquare);
+        }
+
+        for (int coor : MARKET_COORDINATES) {
+            Square cSquare = new Market();
+            board[positionToX(coor)][positionToY(coor)].setCurrentSquare(cSquare);
+        }
+
+        for (int coor : OBSTACLE_COORDINATES) {
+
+            Square cSquare = new Obstacle();
+            board[positionToX(coor)][positionToY(coor)].setCurrentSquare(cSquare);
+
+        }
     }
 
-    private boolean isMarket(int x, int y) {
-        if (isValidPosition(x, y)) {
-            return false;
+    private void squareCoordinatesGenerator() {
+        for (int i = 0; i < MARKET_NUMBER; i++) {
+            int randomPosition = (int) getRandomElement(COMMON_COORDINATES);
+            COMMON_COORDINATES.remove(randomPosition);
+            MARKET_COORDINATES.add(randomPosition);
         }
 
-        if (x == 2 && y == 3) {
-            return true;
+        for (int i = 0; i < OBSTACLE_NUMBER; i++) {
+            int randomPosition = (int) getRandomElement(COMMON_COORDINATES);
+            COMMON_COORDINATES.remove(randomPosition);
+            OBSTACLE_COORDINATES.add(randomPosition);
         }
-
-        if (x == 3 && y == 5) {
-            return true;
-        }
-
-        return false;
     }
 
-    private boolean isTile(int x, int y) {
-        if (isValidPosition(x, y)) {
-            return false;
-        }
-
-        if (x == 6 && y == 2) {
-            return true;
-        }
-
-        if (x == 6 && y == 3) {
-            return true;
-        }
-
-        return false;
+    public Square getPosition(Coordinate coordinate) {
+        return board[coordinate.getX()][coordinate.getY()].getCurrentSquare();
     }
 
-    private boolean isValidPosition(int x, int y) {
-        if (x < 0 || y < 0) {
-            return false;
+    public void setPosition(Hero hero, Coordinate tCoordinate, Coordinate pCoordinate) {
+        if (tCoordinate.getX() < 0 || tCoordinate.getY() < 0) {
+            throw new NullPointerException("INVALID POSITION (OUT OF MAP)");
         }
 
-        if (x > row || y > col) {
-            return false;
+        if (tCoordinate.getX() >= row || tCoordinate.getY() >= col) {
+            throw new NullPointerException("INVALID POSITION (OUT OF MAP)");
         }
 
-        return true;
+        if (getPosition(tCoordinate) instanceof Obstacle) {
+            throw new NullPointerException("INVALID POSITION (OBSTACLE)");
+        }
+
+        Square pSquare = getPosition(pCoordinate);
+        board[tCoordinate.getX()][tCoordinate.getY()].setCurrentSquare(hero);
+        board[tCoordinate.getX()][tCoordinate.getY()].setPreviousSquare(pSquare);
+    }
+
+    public void printBoard() {
+        for (int i = 0; i < row; i++) {
+            String seprator = "";
+            String boardLine = "";
+            for (int j = 0; j < col; j++) {
+                seprator += "+-----";
+            }
+
+            seprator += "+";
+            System.out.println(seprator);
+
+            for (int j = 0; j < col; j++) {
+                boardLine += "|  ";
+                boardLine += board[i][j].getCurrentSquare().toString();
+                boardLine += "  ";
+            }
+            boardLine += "|";
+            System.out.println(boardLine);
+
+            if (i == row - 1) {
+                System.out.println(seprator);
+            }
+        }
+    }
+
+    public int positionToX(int position) {
+        return position / col;
+    }
+
+    public int positionToY(int position) {
+        return position % row;
+    }
+
+    private static int getRandomElement(Set<Integer> set) {
+        Integer[] arrayNumbers = set.toArray(new Integer[set.size()]);
+
+        Random random = new Random();
+
+        int randomNumber = random.nextInt(set.size());
+
+        return arrayNumbers[randomNumber];
     }
 
 }
