@@ -65,11 +65,11 @@ public class Board {
         }
 
         for (int coor : OBSTACLE_COORDINATES) {
-
             Square cSquare = new Obstacle();
             board[positionToX(coor)][positionToY(coor)].setCurrentSquare(cSquare);
-
         }
+
+        printBoard();
     }
 
     private void squareCoordinatesGenerator() {
@@ -103,9 +103,22 @@ public class Board {
             throw new NullPointerException("INVALID POSITION (OBSTACLE)");
         }
 
-        Square pSquare = getPosition(pCoordinate);
+        if (getPosition(tCoordinate) instanceof Market) {
+        }
+
+        hero.setCurLocation(tCoordinate);
+
+        Square pSquare = getPosition(tCoordinate);
         board[tCoordinate.getX()][tCoordinate.getY()].setCurrentSquare(hero);
         board[tCoordinate.getX()][tCoordinate.getY()].setPreviousSquare(pSquare);
+
+        if (pCoordinate == null) {
+            return;
+        }
+
+        Square pSquarePSquare = board[pCoordinate.getX()][pCoordinate.getY()].getPreviousSquare();
+        board[pCoordinate.getX()][pCoordinate.getY()].setCurrentSquare(pSquarePSquare);
+        board[pCoordinate.getX()][pCoordinate.getY()].setPreviousSquare(null);
     }
 
     public void printBoard() {
@@ -121,7 +134,7 @@ public class Board {
 
             for (int j = 0; j < col; j++) {
                 boardLine += "|  ";
-                boardLine += board[i][j].getCurrentSquare().toString();
+                boardLine += board[i][j].getCurrentSquare();
                 boardLine += "  ";
             }
             boardLine += "|";
@@ -131,6 +144,7 @@ public class Board {
                 System.out.println(seprator);
             }
         }
+        System.out.println("");
     }
 
     public int positionToX(int position) {

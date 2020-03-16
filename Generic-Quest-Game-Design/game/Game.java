@@ -1,9 +1,11 @@
 package game;
 
 import java.util.HashSet;
+import java.util.Random;
 
 import avatar.Hero;
 import board.Board;
+import board.square.Coordinate;
 import config.VARIABLES;
 
 /**
@@ -17,31 +19,72 @@ public class Game {
 
     private HashSet<Hero> warriors;
 
+    private Hero captain;
+
     private boolean isQuit;
 
     public Game(Hero... heros) {
+        warriors = new HashSet<>();
+
         for (Hero hero : heros) {
             warriors.add(hero);
         }
+
+        Hero[] arrayNumbers = warriors.toArray(new Hero[warriors.size()]);
+        Random random = new Random();
+        int randomNumber = random.nextInt(warriors.size());
+        captain = arrayNumbers[randomNumber];
+
+        // init board
+        board = new Board(8, 8);
+
+        // init locaiton
+        board.setPosition(captain, captain.getCurLocation(), null);
+        board.printBoard();
     }
 
     public void move(String direction) {
         String formatDirection = direction.toUpperCase();
-        if (formatDirection.equals(VARIABLES.UP)) {
+        Coordinate cCoordinate = captain.getCurLocation();
+        try {
+            if (formatDirection.equals(VARIABLES.UP)) {
+                Coordinate tCoordinate = new Coordinate(cCoordinate.getX() - 1, cCoordinate.getY());
+                board.setPosition(captain, tCoordinate, cCoordinate);
+            }
 
+            if (formatDirection.equals(VARIABLES.DOWN)) {
+                Coordinate tCoordinate = new Coordinate(cCoordinate.getX() + 1, cCoordinate.getY());
+                board.setPosition(captain, tCoordinate, cCoordinate);
+            }
+
+            if (formatDirection.equals(VARIABLES.LEFT)) {
+                Coordinate tCoordinate = new Coordinate(cCoordinate.getX(), cCoordinate.getY() - 1);
+                board.setPosition(captain, tCoordinate, cCoordinate);
+            }
+
+            if (formatDirection.equals(VARIABLES.RIGHT)) {
+                Coordinate tCoordinate = new Coordinate(cCoordinate.getX(), cCoordinate.getY() + 1);
+                board.setPosition(captain, tCoordinate, cCoordinate);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
+        board.printBoard();
+    }
 
-        if (formatDirection.equals(VARIABLES.DOWN)) {
+    public void encounter() {
 
+    }
+
+    public void displayStatistics() {
+        for (Hero hero : warriors) {
+            hero.printStatistics();
+            System.out.println("");
         }
+    }
 
-        if (formatDirection.equals(VARIABLES.LEFT)) {
+    public void displayInstruction() {
 
-        }
-
-        if (formatDirection.equals(VARIABLES.RIGHT)) {
-
-        }
     }
 
 }

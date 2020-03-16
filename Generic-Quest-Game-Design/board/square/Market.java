@@ -1,125 +1,131 @@
 package board.square;
 
 import java.util.*;
+
+import avatar.Hero;
 import config.Color;
 import equipment.*;
 
 public class Market extends Square {
-    private HashMap<Ice_Spells, Queue<Object>> Ice_Spells_Inventory;
-    private HashMap<Fire_Spells, Queue<Object>> Fire_Spells_Inventory;
-    private HashMap<Lighting_Spells, Queue<Object>> Lighting_Spells_Inventory;
-    private HashMap<Weapons, Queue<Object>> Weapons_Inventory;
-    private HashMap<Armors, Queue<Object>> Armors_Inventory;
-    private HashMap<Potions, Queue<Object>> Potions_Inventory;
+
     public boolean accessible;
 
     public Market() {
         this.accessible = false;
     }
 
-    public int getQuantity() {
-        return 1;
-    }
-
-    public Object sellEquipment(Object item) {
+    public Object sellEquipment(Object item, Hero hero) {
         if (item instanceof Weapons) {
-            return this.Weapons_Inventory.get(item).poll();
+            Weapons weapons = (Weapons) item;
+            if (hero.getLevel() < weapons.getMinimumLevel()) {
+                throw new NullPointerException("HERO'S LEVEL IS NOT REACHED!");
+            }
+
+            if (hero.getMoney() < weapons.getCost()) {
+                throw new NullPointerException("HERO DOES NOT HAVE ENOUGH MONEY!");
+            }
+            hero.reduceMoney(weapons.getCost());
+            return item;
         }
 
         if (item instanceof Armors) {
-            return this.Armors_Inventory.get(item).poll();
+            Armors armors = (Armors) item;
+            if (hero.getLevel() < armors.getMinimumLevel()) {
+                throw new NullPointerException("HERO'S LEVEL IS NOT REACHED!");
+            }
+
+            if (hero.getMoney() < armors.getCost()) {
+                throw new NullPointerException("HERO DOES NOT HAVE ENOUGH MONEY!");
+            }
+            hero.reduceMoney(armors.getCost());
+            return item;
         }
 
         if (item instanceof Potions) {
-            return this.Potions_Inventory.get(item).poll();
+            Potions potions = (Potions) item;
+            if (hero.getLevel() < potions.getMinimumLevel()) {
+                throw new NullPointerException("HERO'S LEVEL IS NOT REACHED!");
+            }
 
+            if (hero.getMoney() < potions.getCost()) {
+                throw new NullPointerException("HERO DOES NOT HAVE ENOUGH MONEY!");
+            }
+            hero.reduceMoney(potions.getCost());
+            return item;
         }
 
         if (item instanceof Ice_Spells) {
-            return this.Ice_Spells_Inventory.get(item).poll();
+            Ice_Spells ice_Spells = (Ice_Spells) item;
+            if (hero.getLevel() < ice_Spells.getMinimumLevel()) {
+                throw new NullPointerException("HERO'S LEVEL IS NOT REACHED!");
+            }
 
+            if (hero.getMoney() < ice_Spells.getCost()) {
+                throw new NullPointerException("HERO DOES NOT HAVE ENOUGH MONEY!");
+            }
+            hero.reduceMoney(ice_Spells.getCost());
+            return item;
         }
 
         if (item instanceof Fire_Spells) {
-            return this.Fire_Spells_Inventory.get(item).poll();
+            Fire_Spells fire_Spells = (Fire_Spells) item;
+            if (hero.getLevel() < fire_Spells.getMinimumLevel()) {
+                throw new NullPointerException("HERO'S LEVEL IS NOT REACHED!");
+            }
 
+            if (hero.getMoney() < fire_Spells.getCost()) {
+                throw new NullPointerException("HERO DOES NOT HAVE ENOUGH MONEY!");
+            }
+            hero.reduceMoney(fire_Spells.getCost());
+            return item;
         }
 
         if (item instanceof Lighting_Spells) {
-            return this.Lighting_Spells_Inventory.get(item).poll();
+            Lighting_Spells lighting_Spells = (Lighting_Spells) item;
+            if (hero.getLevel() < lighting_Spells.getMinimumLevel()) {
+                throw new NullPointerException("HERO'S LEVEL IS NOT REACHED!");
+            }
 
+            if (hero.getMoney() < lighting_Spells.getCost()) {
+                throw new NullPointerException("HERO DOES NOT HAVE ENOUGH MONEY!");
+            }
+            hero.reduceMoney(lighting_Spells.getCost());
+            return item;
         }
 
         return null;
     }
 
-    public Object buyEquipment(Object item) {
+    public double buyEquipment(Object item) {
         if (item instanceof Weapons) {
-            return this.Weapons_Inventory.get(item).offer(item);
+            return ((Weapons) item).getCost();
         }
 
         if (item instanceof Armors) {
-            return this.Armors_Inventory.get(item).offer(item);
+            return ((Armors) item).getCost();
         }
 
         if (item instanceof Potions) {
-            return this.Potions_Inventory.get(item).offer(item);
-
+            return ((Potions) item).getCost();
         }
 
         if (item instanceof Ice_Spells) {
-            return this.Ice_Spells_Inventory.get(item).offer(item);
-
+            return ((Ice_Spells) item).getCost();
         }
 
         if (item instanceof Fire_Spells) {
-            return this.Fire_Spells_Inventory.get(item).offer(item);
-
+            return ((Fire_Spells) item).getCost();
         }
 
         if (item instanceof Lighting_Spells) {
-            return this.Lighting_Spells_Inventory.get(item).offer(item);
-
+            return ((Lighting_Spells) item).getCost();
         }
 
-        return null;
+        return -1;
     }
 
-    public boolean hasItem(Object item) {
-        if (item instanceof Weapons) {
-            return !this.Weapons_Inventory.get(item).isEmpty();
-        }
+    private void replenishMarket() {
 
-        if (item instanceof Armors) {
-            return !this.Armors_Inventory.get(item).isEmpty();
-        }
-
-        if (item instanceof Potions) {
-            return !this.Potions_Inventory.get(item).isEmpty();
-        }
-
-        if (item instanceof Ice_Spells) {
-            return !this.Ice_Spells_Inventory.get(item).isEmpty();
-        }
-
-        if (item instanceof Fire_Spells) {
-            return !this.Fire_Spells_Inventory.get(item).isEmpty();
-        }
-
-        if (item instanceof Lighting_Spells) {
-            return !this.Lighting_Spells_Inventory.get(item).isEmpty();
-        }
-
-        return false;
-    }
-
-    public void clear() {
-        this.Weapons_Inventory.clear();
-        this.Armors_Inventory.clear();
-        this.Potions_Inventory.clear();
-        this.Ice_Spells_Inventory.clear();
-        this.Fire_Spells_Inventory.clear();
-        this.Lighting_Spells_Inventory.clear();
     }
 
     @Override
