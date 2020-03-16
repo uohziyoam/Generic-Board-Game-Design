@@ -2,6 +2,7 @@ package avatar;
 
 import board.square.Coordinate;
 import board.square.Square;
+import config.VARIABLES;
 
 /**
  * Avatar
@@ -11,26 +12,25 @@ abstract public class Avatar extends Square {
 
     private double hp;
 
-    private int level;
+    private double level;
 
     private boolean isDead;
 
     private Coordinate curLocation;
 
-    public Avatar(String name, double hp, int level, Coordinate curLocation) {
-
+    public Avatar(String name, Coordinate curLocation) {
         this.name = name;
-        this.hp = hp;
-        this.level = level;
-        this.isDead = false;
+        level = 1;
+        hp = level * 100;
+        isDead = false;
         this.curLocation = curLocation;
     }
 
-    public Avatar(String name, double hp, int level) {
+    public Avatar(String name) {
         this.name = name;
-        this.hp = hp;
-        this.level = level;
-        this.isDead = false;
+        level = 1;
+        hp = level * 100;
+        isDead = false;
     }
 
     /**
@@ -43,7 +43,7 @@ abstract public class Avatar extends Square {
     /**
      * @return the level
      */
-    public int getLevel() {
+    public double getLevel() {
         return level;
     }
 
@@ -92,11 +92,19 @@ abstract public class Avatar extends Square {
     /**
      * @param level the level to set
      */
-    public void setLevel(int level) {
+    public void setLevel(double level) {
         this.level = level;
     }
 
     public void levelUp() {
         this.level += 1;
+    }
+
+    public double makeDamage(double damage) {
+        return damage;
+    }
+
+    public void receiveDamage(double damage) {
+        this.setHp(this.getHp() - damage);
     }
 }

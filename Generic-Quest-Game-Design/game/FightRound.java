@@ -39,7 +39,21 @@ public class FightRound {
     }
 
     private void takeAction(Avatar executor, Avatar target, ActionType action) {
+        if (action == ActionType.CAST_SPELL) {
 
+        }
+
+        if (action == ActionType.CHANGE_EQUIPMENT) {
+
+        }
+
+        if (action == ActionType.REGULAR_ATTACK) {
+
+        }
+
+        if (action == ActionType.USE_POTION) {
+
+        }
     }
 
     private boolean areAllDead(Avatar[] team) {
