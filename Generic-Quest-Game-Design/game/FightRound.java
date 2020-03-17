@@ -57,12 +57,13 @@ public class FightRound {
     }
 
     private boolean areAllDead(Avatar[] team) {
+        int deadAvatar = 0;
         for (Avatar avatar : team) {
-            if (!avatar.getIsDead()) {
-                return false;
+            if (avatar.isDead()) {
+                deadAvatar++;
             }
         }
-        return true;
+        return deadAvatar == team.length;
     }
 
     private void recoverHP(Hero[] heros) {

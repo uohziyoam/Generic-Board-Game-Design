@@ -39,6 +39,10 @@ public class Main {
         monster.printStatistics();
         hero.printStatistics();
 
+        hero.castSpell("Breath_of_Fire", monster);
+        monster.printStatistics();
+        hero.printStatistics();
+
         // game.move("d");
         // game.move("s");
         // game.move("w");

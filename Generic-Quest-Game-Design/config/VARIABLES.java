@@ -15,6 +15,7 @@ public class VARIABLES {
     public static String DOWN = "S";
     public static String RIGHT = "D";
     public static String QUIT = "Q";
+    public static String INFORMATION = "I";
 
     public static HashMap<String, Object> ITEMS_TO_ENUM;
     public static HashMap<String, Object> HEROS_TO_ENUM;

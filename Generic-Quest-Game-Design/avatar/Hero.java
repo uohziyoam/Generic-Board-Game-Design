@@ -6,6 +6,7 @@ import avatar.avatarName.*;
 import board.square.Coordinate;
 import board.square.Market;
 import config.Color;
+import config.DamageType;
 import config.VARIABLES;
 import equipment.*;
 
@@ -169,6 +170,10 @@ public class Hero extends Avatar {
         }
 
         bag.put(item, bag.get(item) - 1);
+
+        if (bag.get(item) <= 0) {
+            bag.remove(item);
+        }
     }
 
     private void addToBag(Object item) {
@@ -228,9 +233,22 @@ public class Hero extends Avatar {
         return super.makeDamage(damage);
     }
 
-    @Override
-    public void receiveDamage(double damage) {
-        super.receiveDamage(Math.random() < agility * 0.02 ? 0 : damage);
+    public double manaCostCalculation(Object damageEquipment) {
+        double manaCost = 0.0;
+
+        if (damageEquipment instanceof Ice_Spells) {
+            manaCost = ((Ice_Spells) damageEquipment).getManaCost();
+        }
+
+        if (damageEquipment instanceof Fire_Spells) {
+            manaCost = ((Fire_Spells) damageEquipment).getManaCost();
+        }
+
+        if (damageEquipment instanceof Lighting_Spells) {
+            manaCost = ((Lighting_Spells) damageEquipment).getManaCost();
+        }
+
+        return manaCost;
     }
 
     public void changeWeapon(String targetWeapon) {
@@ -257,8 +275,42 @@ public class Hero extends Avatar {
         }
     }
 
-    public void castSpell(String targetSpell) {
-        Object targetEquipment = VARIABLES.ITEMS_TO_ENUM.get(targetSpell);
+    public void castSpell(String targetSpell, Avatar targetAvatar) {
+        Object spell = VARIABLES.ITEMS_TO_ENUM.get(targetSpell);
+        double manaCost = manaCostCalculation(spell);
+
+        if (manaCost > mana) {
+            throw new NullPointerException("NO ENOUGH MANA!");
+        }
+
+        try {
+            removeFromBag(spell);
+        } catch (Exception e) {
+
+        }
+
+        targetAvatar.receiveDamage(DamageType.MAGIC_ATTACK, damageCalculation(spell));
+        mana -= manaCost;
+
+    }
+
+    @Override
+    public void receiveDamage(DamageType damageType, double damage) {
+        double finalDamage = 0.0;
+
+        if (damageType == DamageType.REGULAR_ATTACK) {
+            finalDamage = damage - (armor == null ? 0 : armor.getDamageReduction());
+        }
+
+        if (damageType == DamageType.MAGIC_ATTACK) {
+            finalDamage = damage;
+        }
+        super.receiveDamage(damageType, finalDamage);
+    }
+
+    @Override
+    public boolean successfullyDodge() {
+        return Math.random() < agility * 0.02;
     }
 
     public void printStatistics() {
@@ -281,6 +333,8 @@ public class Hero extends Avatar {
 
         System.out.println(Color.ANSI_YELLOW + "BAGS: " + this.bag + Color.ANSI_RESET);
 
-        System.out.println(Color.ANSI_YELLOW + "DEAD: " + (super.getIsDead() ? "YES" : "NO") + Color.ANSI_RESET);
+        System.out.println(Color.ANSI_YELLOW + "DEAD: " + (super.isDead() ? "YES" : "NO") + Color.ANSI_RESET);
+
+        System.out.println("");
     }
 }

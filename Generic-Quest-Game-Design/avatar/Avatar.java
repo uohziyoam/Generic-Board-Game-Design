@@ -2,6 +2,7 @@ package avatar;
 
 import board.square.Coordinate;
 import board.square.Square;
+import config.DamageType;
 import config.VARIABLES;
 
 /**
@@ -57,8 +58,8 @@ abstract public class Avatar extends Square {
     /**
      * @return the isDead
      */
-    public boolean getIsDead() {
-        return isDead;
+    public boolean isDead() {
+        return this.hp <= 0;
     }
 
     /**
@@ -73,13 +74,6 @@ abstract public class Avatar extends Square {
      */
     public void setCurLocation(Coordinate curLocation) {
         this.curLocation = curLocation;
-    }
-
-    /**
-     * @param isDead the isDead to set
-     */
-    public void setDead(boolean isDead) {
-        this.isDead = isDead;
     }
 
     /**
@@ -104,7 +98,11 @@ abstract public class Avatar extends Square {
         return damage;
     }
 
-    public void receiveDamage(double damage) {
-        this.setHp(this.getHp() - damage);
+    public void receiveDamage(DamageType damageType, double damage) {
+        this.setHp(this.getHp() - damage < 0 ? 0 : this.getHp() - damage);
+    }
+
+    public boolean successfullyDodge() {
+        return false;
     }
 }

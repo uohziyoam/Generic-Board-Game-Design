@@ -116,6 +116,11 @@ public class Monster extends Avatar {
         return worth;
     }
 
+    @Override
+    public boolean successfullyDodge() {
+        return Math.random() < dodge * 0.01;
+    }
+
     public void printStatistics() {
         System.out
                 .println(Color.ANSI_PURPLE_BACKGROUND + Color.ANSI_YELLOW + super.getName() + ": " + Color.ANSI_RESET);
@@ -132,7 +137,9 @@ public class Monster extends Avatar {
 
         System.out.println(Color.ANSI_YELLOW + "WORTH: " + this.worth + Color.ANSI_RESET);
 
-        System.out.println(Color.ANSI_YELLOW + "DEAD: " + (super.getIsDead() ? "YES" : "NO") + Color.ANSI_RESET);
+        System.out.println(Color.ANSI_YELLOW + "DEAD: " + (super.isDead() ? "YES" : "NO") + Color.ANSI_RESET);
+
+        System.out.println("");
     }
 
 }
