@@ -11,7 +11,9 @@ import config.VARIABLES;
 abstract public class Avatar extends Square {
     private String name;
 
-    private double hp;
+    private double currentHP;
+
+    private double maxHP;
 
     private double level;
 
@@ -22,7 +24,8 @@ abstract public class Avatar extends Square {
     public Avatar(String name, Coordinate curLocation) {
         this.name = name;
         level = 1;
-        hp = level * 100;
+        currentHP = level * 100;
+        maxHP = level * 100;
         isDead = false;
         this.curLocation = curLocation;
     }
@@ -30,15 +33,22 @@ abstract public class Avatar extends Square {
     public Avatar(String name) {
         this.name = name;
         level = 1;
-        hp = level * 100;
+        currentHP = level * 100;
         isDead = false;
     }
 
     /**
-     * @return the hp
+     * @return the currentHp
      */
-    public double getHp() {
-        return hp;
+    public double getCurrentHp() {
+        return currentHP;
+    }
+
+    /**
+     * @return the maxHP
+     */
+    public double getMaxHP() {
+        return maxHP;
     }
 
     /**
@@ -59,7 +69,7 @@ abstract public class Avatar extends Square {
      * @return the isDead
      */
     public boolean isDead() {
-        return this.hp <= 0;
+        return this.currentHP <= 0;
     }
 
     /**
@@ -80,7 +90,7 @@ abstract public class Avatar extends Square {
      * @param hp the hp to set
      */
     public void setHp(double hp) {
-        this.hp = hp;
+        this.currentHP = hp;
     }
 
     /**
@@ -90,8 +100,21 @@ abstract public class Avatar extends Square {
         this.level = level;
     }
 
+    abstract void regularAttack(Avatar targetAvatar);
+
+    public void revive() {
+        this.setHp(maxHP / 2);
+    };
+
     public void levelUp() {
         this.level += 1;
+    }
+
+    /**
+     * @param maxHP the maxHP to set
+     */
+    public void setMaxHP(double maxHP) {
+        this.maxHP = maxHP;
     }
 
     public double makeDamage(double damage) {
@@ -99,10 +122,14 @@ abstract public class Avatar extends Square {
     }
 
     public void receiveDamage(DamageType damageType, double damage) {
-        this.setHp(this.getHp() - damage < 0 ? 0 : this.getHp() - damage);
+
+        this.setHp(this.getCurrentHp() - damage < 0 ? 0 : this.getCurrentHp() - damage);
+        isDead = getCurrentHp() <= 0;
     }
 
     public boolean successfullyDodge() {
         return false;
     }
+
+    
 }

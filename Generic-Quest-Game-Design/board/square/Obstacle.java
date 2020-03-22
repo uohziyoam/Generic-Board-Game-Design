@@ -14,7 +14,4 @@ public class Obstacle extends Square {
         return Color.ANSI_GREEN + "%" + Color.ANSI_RESET;
     }
 
-    public boolean hasMonster() {
-        return false;
-    }
 }

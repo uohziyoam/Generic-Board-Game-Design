@@ -1,15 +1,15 @@
 package equipment;
 
 public enum Potions {
-    Healing_Potion(250, 1, 100),
+    HealingPotion(250, 1, 100),
 
-    Strength_Potion(200, 1, 75),
+    StrengthPotion(200, 1, 75),
 
-    Magic_Potion(350, 2, 100),
+    MagicPotion(350, 2, 100),
 
-    Luck_Elixir(500, 4, 65),
+    LuckElixir(500, 4, 65),
 
-    Mermaid_Tears(850, 5, 100),
+    MermaidTears(850, 5, 100),
 
     Ambrosia(1000, 8, 150);
 

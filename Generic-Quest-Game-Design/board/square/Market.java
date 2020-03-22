@@ -93,6 +93,7 @@ public class Market extends Square {
             return item;
         }
 
+
         return null;
     }
 
@@ -137,7 +138,4 @@ public class Market extends Square {
         return accessible;
     }
 
-    public boolean hasMonster() {
-        return false;
-    }
 }

@@ -1,15 +1,15 @@
 package equipment;
 
 public enum Armors {
-    Platinum_Shield(150, 1, 200),
+    PlatinumShield(150, 1, 200),
 
     Breastplate(350, 3, 600),
 
-    Full_Body_Armor(1000, 8, 1100),
+    FullBodyArmor(1000, 8, 1100),
 
-    Wizard_Shield(1200, 10, 1500),
+    WizardShield(1200, 10, 1500),
 
-    Speed_Boots(550, 4, 600);
+    SpeedBoots(550, 4, 600);
 
     private final double cost;
     private final int minimumLevel;

@@ -1,11 +1,11 @@
 package equipment;
 
 public enum Lighting_Spells {
-    Thunder_Blast(750, 4, 950, 400),
+    ThunderBlast(750, 4, 950, 400),
 
-    Electric_Arrows(550, 5, 650, 200),
+    ElectricArrows(550, 5, 650, 200),
 
-    Spark_Needles(500, 2, 600, 200),
+    SparkNeedles(500, 2, 600, 200),
 
     LightningDagger(400, 1, 500, 150);
 

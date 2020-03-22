@@ -1,13 +1,13 @@
 package equipment;
 
 public enum Fire_Spells {
-    Flame_Tornado(700, 4, 850, 300),
+    FlameTornado(700, 4, 850, 300),
 
-    Lava_Commet(800, 7, 1000, 550),
+    LavaCommet(800, 7, 1000, 550),
 
-    Breath_of_Fire(350, 1, 450, 100),
+    BreathofFire(350, 1, 450, 100),
 
-    Heat_Wave(450, 2, 600, 150);
+    HeatWave(450, 2, 600, 150);
 
     private final double cost;
     private final int minimumLevel;

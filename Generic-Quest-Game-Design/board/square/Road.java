@@ -12,7 +12,8 @@ public class Road extends Square {
         return " ";
     }
 
+    @Override
     public boolean hasMonster() {
-        return Math.random() < 0.3;
+        return Math.random() < 0.9;
     }
 }

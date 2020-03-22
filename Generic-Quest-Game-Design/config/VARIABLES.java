@@ -1,6 +1,7 @@
 package config;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 import avatar.avatarName.*;
 import equipment.*;
@@ -17,24 +18,37 @@ public class VARIABLES {
     public static String QUIT = "Q";
     public static String INFORMATION = "I";
 
+    public static HashSet<String> ITEMS_CATEGORY;
+
     public static HashMap<String, Object> ITEMS_TO_ENUM;
     public static HashMap<String, Object> HEROS_TO_ENUM;
     public static HashMap<String, Object> MONSTERS_TO_ENUM;
 
     static {
+        ITEMS_CATEGORY = new HashSet<>();
+
+        ITEMS_CATEGORY.add("WEAPONS");
+        ITEMS_CATEGORY.add("SPELLS");
+        ITEMS_CATEGORY.add("ARMORS");
+        ITEMS_CATEGORY.add("POTIONS");
+        ITEMS_CATEGORY.add("Q");
+    }
+
+    static {
         ITEMS_TO_ENUM = new HashMap<>();
+        ITEMS_TO_ENUM.put("Q", null);
 
-        ITEMS_TO_ENUM.put("Platinum_Shield", Armors.Platinum_Shield);
+        ITEMS_TO_ENUM.put("Platinumshield", Armors.PlatinumShield);
         ITEMS_TO_ENUM.put("Breastplate", Armors.Breastplate);
-        ITEMS_TO_ENUM.put("Full_Body_Armor", Armors.Full_Body_Armor);
-        ITEMS_TO_ENUM.put("Wizard_Shield", Armors.Wizard_Shield);
-        ITEMS_TO_ENUM.put("Speed_Boots", Armors.Speed_Boots);
+        ITEMS_TO_ENUM.put("Fullbodyarmor", Armors.FullBodyArmor);
+        ITEMS_TO_ENUM.put("Wizardshield", Armors.WizardShield);
+        ITEMS_TO_ENUM.put("Speedboots", Armors.SpeedBoots);
 
-        ITEMS_TO_ENUM.put("Healing_Potion", Potions.Healing_Potion);
-        ITEMS_TO_ENUM.put("Strength_Potion", Potions.Strength_Potion);
-        ITEMS_TO_ENUM.put("Magic_Potion", Potions.Magic_Potion);
-        ITEMS_TO_ENUM.put("Luck_Elixir", Potions.Luck_Elixir);
-        ITEMS_TO_ENUM.put("Mermaid_Tears", Potions.Mermaid_Tears);
+        ITEMS_TO_ENUM.put("Healingpotion", Potions.HealingPotion);
+        ITEMS_TO_ENUM.put("Strengthpotion", Potions.StrengthPotion);
+        ITEMS_TO_ENUM.put("Magicpotion", Potions.MagicPotion);
+        ITEMS_TO_ENUM.put("Luckelixir", Potions.LuckElixir);
+        ITEMS_TO_ENUM.put("Mermaidtears", Potions.MermaidTears);
         ITEMS_TO_ENUM.put("Ambrosia", Potions.Ambrosia);
 
         ITEMS_TO_ENUM.put("Sword", Weapons.Sword);
@@ -42,27 +56,28 @@ public class VARIABLES {
         ITEMS_TO_ENUM.put("Scythe", Weapons.Scythe);
         ITEMS_TO_ENUM.put("Axe", Weapons.Axe);
         ITEMS_TO_ENUM.put("Shield", Weapons.Shield);
-        ITEMS_TO_ENUM.put("TSwords", Weapons.TSwords);
+        ITEMS_TO_ENUM.put("Tswords", Weapons.TSwords);
         ITEMS_TO_ENUM.put("Dagger", Weapons.Dagger);
 
-        ITEMS_TO_ENUM.put("Flame_Tornado", Fire_Spells.Flame_Tornado);
-        ITEMS_TO_ENUM.put("Lava_Commet", Fire_Spells.Lava_Commet);
-        ITEMS_TO_ENUM.put("Breath_of_Fire", Fire_Spells.Breath_of_Fire);
-        ITEMS_TO_ENUM.put("Heat_Wave", Fire_Spells.Heat_Wave);
+        ITEMS_TO_ENUM.put("Flametornado", Fire_Spells.FlameTornado);
+        ITEMS_TO_ENUM.put("Lavacommet", Fire_Spells.LavaCommet);
+        ITEMS_TO_ENUM.put("Breathoffire", Fire_Spells.BreathofFire);
+        ITEMS_TO_ENUM.put("Heatwave", Fire_Spells.HeatWave);
 
-        ITEMS_TO_ENUM.put("Snow_Canon", Ice_Spells.Snow_Canon);
-        ITEMS_TO_ENUM.put("Frost_Blizzard", Ice_Spells.Frost_Blizzard);
-        ITEMS_TO_ENUM.put("Arctic_storm", Ice_Spells.Arctic_storm);
-        ITEMS_TO_ENUM.put("Ice_Blade", Ice_Spells.Ice_Blade);
+        ITEMS_TO_ENUM.put("Snowcanon", Ice_Spells.SnowCanon);
+        ITEMS_TO_ENUM.put("Frostblizzard", Ice_Spells.FrostBlizzard);
+        ITEMS_TO_ENUM.put("Arcticstorm", Ice_Spells.Arcticstorm);
+        ITEMS_TO_ENUM.put("Iceblade", Ice_Spells.IceBlade);
 
-        ITEMS_TO_ENUM.put("Thunder_Blast", Lighting_Spells.Thunder_Blast);
-        ITEMS_TO_ENUM.put("Electric_Arrows", Lighting_Spells.Electric_Arrows);
-        ITEMS_TO_ENUM.put("Spark_Needles", Lighting_Spells.Spark_Needles);
-        ITEMS_TO_ENUM.put("LightningDagger", Lighting_Spells.LightningDagger);
+        ITEMS_TO_ENUM.put("Thunderblast", Lighting_Spells.ThunderBlast);
+        ITEMS_TO_ENUM.put("Electricarrows", Lighting_Spells.ElectricArrows);
+        ITEMS_TO_ENUM.put("Sparkneedles", Lighting_Spells.SparkNeedles);
+        ITEMS_TO_ENUM.put("Lightningdagger", Lighting_Spells.LightningDagger);
     }
 
     static {
         HEROS_TO_ENUM = new HashMap<>();
+        HEROS_TO_ENUM.put("Q", null);
 
         HEROS_TO_ENUM.put("Gaerdal_Ironhand", Warriors.Gaerdal_Ironhand);
         HEROS_TO_ENUM.put("Sehanine_Monnbow", Warriors.Sehanine_Monnbow);

@@ -1,13 +1,13 @@
 package equipment;
 
 public enum Ice_Spells {
-    Snow_Canon(500, 2, 650, 250),
+    SnowCanon(500, 2, 650, 250),
 
-    Frost_Blizzard(750, 5, 850, 350),
+    FrostBlizzard(750, 5, 850, 350),
 
-    Arctic_storm(700, 6, 800, 300),
+    Arcticstorm(700, 6, 800, 300),
 
-    Ice_Blade(250, 1, 450, 100);
+    IceBlade(250, 1, 450, 100);
 
     private final double cost;
     private final int minimumLevel;

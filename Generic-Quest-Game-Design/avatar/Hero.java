@@ -2,6 +2,7 @@ package avatar;
 
 import java.util.HashMap;
 
+import avatar.avatarInterface.HeroAction;
 import avatar.avatarName.*;
 import board.square.Coordinate;
 import board.square.Market;
@@ -13,7 +14,7 @@ import equipment.*;
 /**
  * Hero
  */
-public class Hero extends Avatar {
+public class Hero extends Avatar implements HeroAction {
 
     private double strength;
 
@@ -24,6 +25,8 @@ public class Hero extends Avatar {
     private double money;
 
     private double mana;
+
+    private double maxMana;
 
     private double experience;
 
@@ -96,6 +99,8 @@ public class Hero extends Avatar {
         armor = null;
         weapon = null;
         bag = new HashMap<>();
+        mana = getLevel() * 100;
+        maxMana = getLevel() * 100;
     }
 
     private void initHeroProperties(
@@ -126,14 +131,25 @@ public class Hero extends Avatar {
         this.dexterity = dexterity;
     }
 
+    /**
+     * @return the bag
+     */
+    public HashMap<Object, Integer> getBag() {
+        return bag;
+    }
+
     public void buy(String item, Market market) {
-        Object equipment = market.sellEquipment(VARIABLES.ITEMS_TO_ENUM.get(item), this);
+        item = item.substring(0, 1).toUpperCase() + item.substring(1).toLowerCase();
+        try {
+            Object equipment = market.sellEquipment(VARIABLES.ITEMS_TO_ENUM.get(item), this);
+            if (!bag.containsKey(equipment)) {
+                bag.put(equipment, 0);
+            }
 
-        if (!bag.containsKey(equipment)) {
-            bag.put(equipment, 1);
+            bag.put(equipment, bag.get(equipment) + 1);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-
-        bag.put(equipment, bag.get(equipment) + 1);
     }
 
     public void sell(String item, Market market) {
@@ -150,8 +166,34 @@ public class Hero extends Avatar {
         money -= cost;
     }
 
-    public void addExperience(int experience) {
+    @Override
+    public void addExperience(double experience) {
         this.experience += experience;
+        if (this.experience > this.getLevel() * 10) {
+            levelUp();
+            super.setMaxHP(getLevel() * 100);
+            super.setHp(super.getMaxHP());
+            setMana(maxMana);
+            this.agility = 1.05 * this.agility;
+            this.dexterity = 1.05 * this.dexterity;
+            this.strength = 1.05 * this.strength;
+
+            Object hero = VARIABLES.HEROS_TO_ENUM.get(getName());
+            if (hero instanceof Warriors) {
+                this.strength = 1.05 * this.strength;
+                this.agility = 1.05 * this.agility;
+            }
+
+            if (hero instanceof Sorcerers) {
+                this.dexterity = 1.05 * this.dexterity;
+                this.agility = 1.05 * this.agility;
+            }
+
+            if (hero instanceof Paladins) {
+                this.agility = 1.05 * this.agility;
+                this.dexterity = 1.05 * this.dexterity;
+            }
+        }
     }
 
     @Override
@@ -200,7 +242,33 @@ public class Hero extends Avatar {
     }
 
     public void recover() {
-        super.setHp(100);
+        System.out.print((getCurrentHp() + super.getMaxHP() / 10) >= super.getMaxHP() ? super.getMaxHP()
+                : super.getMaxHP() + super.getMaxHP() / 10);
+
+        super.setHp(
+
+                (getCurrentHp() + super.getCurrentHp() / 10) >= super.getMaxHP()
+
+                        ? super.getMaxHP()
+
+                        : (super.getCurrentHp() + super.getCurrentHp() / 10)
+
+        );
+
+        setMana(
+
+                (getCurrentMana() + getCurrentMana() / 10) >= getMaxMana()
+
+                        ? getMaxMana()
+
+                        : (getCurrentMana() + getCurrentMana() / 10)
+
+        );
+    }
+
+    @Override
+    public void revive() {
+        super.revive();
     }
 
     public void useMana(double manaCost) {
@@ -259,7 +327,7 @@ public class Hero extends Avatar {
             addToBag(originalEquipment);
             this.weapon = targetEquipment;
         } catch (Exception e) {
-
+            System.out.println(e);
         }
     }
 
@@ -271,7 +339,7 @@ public class Hero extends Avatar {
             addToBag(originalEquipment);
             this.armor = targetEquipment;
         } catch (Exception e) {
-
+            System.out.println(e);
         }
     }
 
@@ -292,20 +360,86 @@ public class Hero extends Avatar {
         targetAvatar.receiveDamage(DamageType.MAGIC_ATTACK, damageCalculation(spell));
         mana -= manaCost;
 
+        if (spell instanceof Ice_Spells) {
+            ((Monster) targetAvatar).setDamage(((Monster) targetAvatar).getDamage() * 0.9);
+
+        }
+
+        if (spell instanceof Fire_Spells) {
+            ((Monster) targetAvatar).setDefense(((Monster) targetAvatar).getDefense() * 0.9);
+
+        }
+
+        if (spell instanceof Lighting_Spells) {
+            ((Monster) targetAvatar).setDodge(((Monster) targetAvatar).getDodge() * 0.9);
+
+        }
+    }
+
+    public void usePotion(String targetPotion) {
+        Potions potion = (Potions) VARIABLES.ITEMS_TO_ENUM.get(targetPotion);
+
+        try {
+            removeFromBag(potion);
+        } catch (Exception e) {
+
+        }
+        setHp(potion.getAttributeIncrease() + getCurrentHp() > getMaxHP() ? getMaxHP()
+                : potion.getAttributeIncrease() + getCurrentHp());
+
+        setMana(potion.getAttributeIncrease() + getCurrentMana() > getMaxMana() ? getMaxMana()
+                : potion.getAttributeIncrease() + getCurrentMana());
+    }
+
+    /**
+     * @param mana the mana to set
+     */
+    public void setMana(double mana) {
+        this.mana = mana;
+    }
+
+    /**
+     * @return the mana
+     */
+    public double getCurrentMana() {
+        return mana;
+    }
+
+    public double getMaxMana() {
+        return maxMana;
+    }
+
+    public void winMoney(double money) {
+        this.money += money;
+    }
+
+    @Override
+    public void regularAttack(Avatar targetAvatar) {
+        if (this.weapon == null) {
+            targetAvatar.receiveDamage(DamageType.PHYSICAL_ATTACK, this.strength * 0.5);
+        } else {
+            targetAvatar.receiveDamage(DamageType.PHYSICAL_ATTACK, damageCalculation(weapon));
+        }
     }
 
     @Override
     public void receiveDamage(DamageType damageType, double damage) {
         double finalDamage = 0.0;
 
-        if (damageType == DamageType.REGULAR_ATTACK) {
-            finalDamage = damage - (armor == null ? 0 : armor.getDamageReduction());
+        if (successfullyDodge()) {
+            return;
+        }
+
+        if (damageType == DamageType.PHYSICAL_ATTACK) {
+            finalDamage = damage - (armor == null ? 0 : armor.getDamageReduction()) < getCurrentHp() ? getCurrentHp()
+                    : damage - (armor == null ? 0 : armor.getDamageReduction());
         }
 
         if (damageType == DamageType.MAGIC_ATTACK) {
             finalDamage = damage;
         }
-        super.receiveDamage(damageType, finalDamage);
+
+        super.receiveDamage(damageType, finalDamage / 1.5);
     }
 
     @Override
@@ -313,28 +447,40 @@ public class Hero extends Avatar {
         return Math.random() < agility * 0.02;
     }
 
+    public void loseMoney() {
+        this.money /= 2;
+    }
+
     public void printStatistics() {
-        System.out
-                .println(Color.ANSI_PURPLE_BACKGROUND + Color.ANSI_YELLOW + super.getName() + ": " + Color.ANSI_RESET);
+        System.out.print(Color.ANSI_PURPLE_BACKGROUND);
+
+        System.out.println(Color.ANSI_YELLOW + super.getName() + ": " + Color.ANSI_RESET);
 
         System.out.println(Color.ANSI_YELLOW + "LEVEL: " + super.getLevel() + Color.ANSI_RESET);
 
-        System.out.println(Color.ANSI_YELLOW + "HP: " + super.getHp() + Color.ANSI_RESET);
+        System.out.println(Color.ANSI_YELLOW + "HP: " + super.getCurrentHp() + Color.ANSI_RESET);
 
         System.out.println(Color.ANSI_YELLOW + "MANA: " + this.mana + Color.ANSI_RESET);
 
-        System.out.println(Color.ANSI_YELLOW + "MONEY: " + this.money + Color.ANSI_RESET);
+        System.out.println(Color.ANSI_YELLOW + "STRENGTH: " + this.strength);
 
-        System.out.println(Color.ANSI_YELLOW + "EXPERIENCE: " + this.experience + Color.ANSI_RESET);
+        System.out.println(Color.ANSI_YELLOW + "AGILITY: " + this.agility);
 
-        System.out.println(Color.ANSI_YELLOW + "ARMOR: " + this.armor + Color.ANSI_RESET);
+        System.out.println(Color.ANSI_YELLOW + "DEXTERITY: " + this.dexterity);
 
-        System.out.println(Color.ANSI_YELLOW + "WEAPON: " + this.weapon + Color.ANSI_RESET);
+        System.out.println(Color.ANSI_YELLOW + "MONEY: " + this.money);
 
-        System.out.println(Color.ANSI_YELLOW + "BAGS: " + this.bag + Color.ANSI_RESET);
+        System.out.println(Color.ANSI_YELLOW + "EXPERIENCE: " + this.experience);
 
-        System.out.println(Color.ANSI_YELLOW + "DEAD: " + (super.isDead() ? "YES" : "NO") + Color.ANSI_RESET);
+        System.out.println(Color.ANSI_YELLOW + "ARMOR: " + this.armor);
 
-        System.out.println("");
+        System.out.println(Color.ANSI_YELLOW + "WEAPON: " + this.weapon);
+
+        System.out.println(Color.ANSI_YELLOW + "BAGS: " + this.bag);
+
+        System.out.println(Color.ANSI_YELLOW + "DEAD: " + (super.isDead() ? "YES" : "NO"));
+
+        System.out.println(Color.ANSI_RESET);
     }
+
 }

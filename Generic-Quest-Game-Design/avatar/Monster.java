@@ -1,15 +1,17 @@
 package avatar;
 
+import avatar.avatarInterface.MonsterAction;
 import avatar.avatarName.Dragons;
 import avatar.avatarName.Exoskeletons;
 import avatar.avatarName.Spirits;
 import config.Color;
+import config.DamageType;
 import config.VARIABLES;
 
 /**
  * Monster
  */
-public class Monster extends Avatar {
+public class Monster extends Avatar implements MonsterAction {
 
     private double damage;
     private double defense;
@@ -86,6 +88,8 @@ public class Monster extends Avatar {
         super.setLevel(level);
 
         super.setHp(level * 100);
+
+        super.setMaxHP(level * 100);
     }
 
     /**
@@ -121,13 +125,58 @@ public class Monster extends Avatar {
         return Math.random() < dodge * 0.01;
     }
 
+    @Override
+    public void receiveDamage(DamageType damageType, double damage) {
+        double finalDamage = 0.0;
+
+        if (successfullyDodge()) {
+            return;
+        }
+
+        if (damageType == DamageType.PHYSICAL_ATTACK) {
+            finalDamage = damage - defense < 0 ? 0 : damage - defense;
+        }
+
+        if (damageType == DamageType.MAGIC_ATTACK) {
+            finalDamage = damage - defense < 0 ? 0 : damage - defense;
+        }
+
+        super.receiveDamage(damageType, finalDamage);
+    }
+
+    /**
+     * @param dodge the dodge to set
+     */
+    public void setDodge(double dodge) {
+        this.dodge = dodge;
+    }
+
+    /**
+     * @param defense the defense to set
+     */
+    public void setDefense(double defense) {
+        this.defense = defense;
+    }
+
+    /**
+     * @param damage the damage to set
+     */
+    public void setDamage(double damage) {
+        this.damage = damage;
+    }
+
+    @Override
+    void regularAttack(Avatar targetAvatar) {
+        targetAvatar.receiveDamage(DamageType.PHYSICAL_ATTACK, this.damage);
+    }
+
     public void printStatistics() {
         System.out
                 .println(Color.ANSI_PURPLE_BACKGROUND + Color.ANSI_YELLOW + super.getName() + ": " + Color.ANSI_RESET);
 
         System.out.println(Color.ANSI_YELLOW + "LEVEL: " + super.getLevel() + Color.ANSI_RESET);
 
-        System.out.println(Color.ANSI_YELLOW + "HP: " + super.getHp() + Color.ANSI_RESET);
+        System.out.println(Color.ANSI_YELLOW + "HP: " + super.getCurrentHp() + Color.ANSI_RESET);
 
         System.out.println(Color.ANSI_YELLOW + "DAMAGE: " + this.damage + Color.ANSI_RESET);
 

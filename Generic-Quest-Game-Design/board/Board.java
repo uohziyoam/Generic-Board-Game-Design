@@ -69,7 +69,7 @@ public class Board {
             board[positionToX(coor)][positionToY(coor)].setCurrentSquare(cSquare);
         }
 
-        printBoard();
+        // printBoard();
     }
 
     private void squareCoordinatesGenerator() {
