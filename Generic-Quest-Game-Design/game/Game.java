@@ -3,7 +3,6 @@ package game;
 import java.util.*;
 
 import avatar.Hero;
-import avatar.Monster;
 import board.Board;
 import board.square.*;
 import config.*;
@@ -26,8 +25,6 @@ public class Game {
 
     private boolean isQuitGame;
 
-    private boolean EncounterMoster;
-
     private boolean inMarket;
 
     public Game() {
@@ -41,7 +38,6 @@ public class Game {
         // Random random = new Random();
         // int randomNumber = random.nextInt(herosTeam.size());
         captain = arrayNumbers[0];
-        EncounterMoster = false;
         inMarket = false;
 
         // init board
@@ -55,7 +51,7 @@ public class Game {
     private int herosNumbers() {
         String input = "";
         int number = 0;
-        while (number < 1 || number > 3) {
+        while (number < MIN_MEMEBERS || number > MAX_MEMEBERS) {
             System.out.println("HOW MANY HEROS DO YOU NEED? (1 ~ 3): ");
             input = in.next();
             if (!input.chars().allMatch(Character::isDigit)) {
@@ -161,28 +157,24 @@ public class Game {
         try {
             if (formatDirection.equals(VARIABLES.UP)) {
                 Coordinate tCoordinate = new Coordinate(cCoordinate.getX() - 1, cCoordinate.getY());
-                encounterMonster(tCoordinate);
                 enterMarket(tCoordinate);
                 board.setPosition(captain, tCoordinate, cCoordinate);
             }
 
             if (formatDirection.equals(VARIABLES.DOWN)) {
                 Coordinate tCoordinate = new Coordinate(cCoordinate.getX() + 1, cCoordinate.getY());
-                encounterMonster(tCoordinate);
                 enterMarket(tCoordinate);
                 board.setPosition(captain, tCoordinate, cCoordinate);
             }
 
             if (formatDirection.equals(VARIABLES.LEFT)) {
                 Coordinate tCoordinate = new Coordinate(cCoordinate.getX(), cCoordinate.getY() - 1);
-                encounterMonster(tCoordinate);
                 enterMarket(tCoordinate);
                 board.setPosition(captain, tCoordinate, cCoordinate);
             }
 
             if (formatDirection.equals(VARIABLES.RIGHT)) {
                 Coordinate tCoordinate = new Coordinate(cCoordinate.getX(), cCoordinate.getY() + 1);
-                encounterMonster(tCoordinate);
                 enterMarket(tCoordinate);
                 board.setPosition(captain, tCoordinate, cCoordinate);
             }
@@ -190,10 +182,6 @@ public class Game {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    private void encounterMonster(Coordinate coordinate) {
-        EncounterMoster = board.getPosition(coordinate).hasMonster();
     }
 
     private void enterMarket(Coordinate coordinate) {
