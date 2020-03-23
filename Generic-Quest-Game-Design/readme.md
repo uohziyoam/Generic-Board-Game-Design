@@ -8,14 +8,44 @@ The high level design of the whole project is based on the following components:
 - **FightRound.java** - A class implements the logic of fight between monsters and warriors.
 - **Game.java** - A game class that includes all the main logic of the game.
 
-- **Armors.java** - An enum construct all the details about the equipment.
-- **Weapons.java** - An enum construct all the details about the equipment.
-- **Potions.java** - An enum construct all the details about the equipment.
-- **Fire_Spells.java** - An enum construct all the details about the equipment.
-- **Ice_Spells.java** - An enum construct all the details about the equipment.
-- **Lighting_Spells.java** - An enum construct all the details about the equipment.
+- **Equipment**
 
-- **GameMode.java** - A game mode class provides the basic mode menu for users.
+  - **Armors.java** - An enum construct all the details about the equipment.
+  - **Weapons.java** - An enum construct all the details about the equipment.
+  - **Potions.java** - An enum construct all the details about the equipment.
+  - **Fire_Spells.java** - An enum construct all the details about the equipment.
+  - **Ice_Spells.java** - An enum construct all the details about the equipment.
+  - **Lighting_Spells.java** - An enum construct all the details about the equipment.
+
+- **Config**
+
+  - **Color.java** - A static class incluedes all color variables.
+  - **DamageType.java** - An enum includes the damage type (e.g. magic and physical).
+  - **Variables.java** - A static class initializes and stores all required data.
+
+* **Board**
+
+  - **Board.java** - A class implements the generation logic of board.
+  - **Cell.java** - A single cell of a board.
+  - **Coordinnate.java** - A class that is used to record the coordinate of a cell.
+  - **Market.java** - A class implements the structure of the Market.
+  - **Obstacle.java** - A class implements the structure of the Obstacle.
+  - **Road.java** - A class implements the structure of the Road.
+  - **Square.java** - A superclass implements the structure of the Square.
+
+* **Avatar**
+
+  - **HeroAction.java** - An interface includes all the required actions performed by heros.
+  - **MonsterAction.java** - An interface includes all the required actions performed by monsters.
+  - **Dragons.java** - An enum construct all the details about the avatar.
+  - **Exoskeletons.java** - An enum construct all the details about the avatar.
+  - **Paladins.java** - An enum construct all the details about the avatar.
+  - **Sorcerers.java** - An enum construct all the details about the avatar.
+  - **Spirits.java** - An enum construct all the details about the avatar.
+  - **Warriors.java** - An enum construct all the details about the avatar.
+  - **Avatar.java** - A superclass that provides the details about an avatar in the game.
+  - **Hero.java** - A class that constructs a Hero Object.
+  - **Monster.java** - A class that constructs a Monster Object.
 
 ```
 .
@@ -79,87 +109,83 @@ java Main
 ## Getting Started
 
 ```
-1. Simple NxN Tic Tac Toe
-2. Order and Chaos
-3. Stay tuned ......
-4. EXIT
-
-Enter 1~9 to choose the game from the list: (e.g. 1)
-```
-
-#### - Sample of NxM Tic Tac Toe
+HOW MANY HEROS DO YOU NEED? (1 ~ 3):
 
 ```
-Enter the size of the board (e.g. 3x3):
-3x3
+
+#### - Sample of 1 Hero Player
+
+```
+PICK YOUR No. 0 HEROS! (e.g. Flandal_Steelskin):
+Flandal_Steelskin
 ```
 
 ```
-Enter your desired nick name (e.g. Mike):
-Beck
-
-Enter your desired nick name (e.g. Mike):
-Ted
+Garl_Glittergold:
+LEVEL: 1.0
+HP: 100.0
+MANA: 100.0
+STRENGTH: 600.0
+AGILITY: 500.0
+DEXTERITY: 400.0
+MONEY: 2500.0
+EXPERIENCE: 5.0
+ARMOR: null
+WEAPON: null
+BAGS: {}
+DEAD: NO
 ```
 
 ```
-X will play first.
+ENTER YOUR NEXT MOVEMENT:
+1. MOVE UP (W/w)
+2. MOVE DOWN (S/s)
+3. MOVE LEFT (A/a)
+4. MOVE RIGHT (D/d)
+5. INFORMATION (I/i)
+6. MAP (M/m)
+7. QUIT (Q/q)
+```
 
-Player Beck Enter your move (e.g. 1~9): 5
+```
+Hero: Garl_Glittergold (ENTER FULL STRING e.g. USEPOTION)
+0. USEPOTION
+1. REGULARATTACK
+2. CHANGEARMOR
+3. CHANGEWEAPON
+4. CASTSPELL
+5. DISPLAYSTATS
+6. QUIT
+```
 
-Player Ted Enter your move (e.g. 1~9): 2
+```
+WHICH HERO NEED TO ENTER MARKET? (ENTER INDEX! OR Q/I):
+0. Garl_Glittergold
+1. QUIT (Q/q)
+2. INFORMATION (I/i)
 ```
 
 Each cell has a corresponding number, simplly enter **1 ~ 9** can allow the user to move the the correct position.
 To play the game again, type **(Y/N)** into the terminal or command.
 
-#### - Sample of Order and Chaos
-
 ```
-Enter your desired nick name (e.g. Mike):
-Beck
-
-Enter your desired nick name (e.g. Mike):
-Ted
-```
-
-```
-Order will play first.
-
-Player Beck Enter the Piece you want to place (e.g. X or O):
-X
-
-Player Beck Enter your move (e.g. 1~36):
-1
-
-Player Ted Enter the Piece you want to place (e.g. X or O):
-O
-
-Player Ted Enter your move (e.g. 1~36):
-2
-```
-
-Each cell has a corresponding number, simplly enter a number (depends on how big the board is) can allow the user to move the the correct position.
-
-```
-                                     _=_
-                                   q(-_-)p
-                                   '_) (_`
-                                   /__/  \
-                                 _(<_   / )_
-                                (__\_\_|_/__)
-                                (__\_\_|_/__)
-  ______ _        _  _            _       __        ______ __    _  __  __       __
- (   /  /_|(__/  / )/_| /  /|/|  /_| /| )/  )  /__/(_ (_  /__)  / )/  )/  )//| )/ _
-__) (  (  | /   (__(  |(__/   | (  |/ |//(_/  /  ) /__/__/     (__(__//(_/(/ |/(__)
-====================================================================================
-.------------------------.-------------------.------------------.------------------.
-|        ########        |        WIN        |       LOSE       |       DRAW       |
-:------------------------+-------------------+------------------+------------------:
-|        PLAYER X        |         9         |         0        |         0        |
-:------------------------+-------------------+------------------+------------------:
-|        PLAYER O        |         1         |         6        |         0        |
-'------------------------'-------------------'------------------'------------------'
++-----+-----+-----+-----+-----+-----+-----+-----+
+|  M  |  M  |  %  |  M  |     |  M  |     |  M  |
++-----+-----+-----+-----+-----+-----+-----+-----+
+|     |     |     |  %  |     |  M  |  %  |     |
++-----+-----+-----+-----+-----+-----+-----+-----+
+|  %  |  M  |  M  |     |     |     |     |     |
++-----+-----+-----+-----+-----+-----+-----+-----+
+|  %  |     |  M  |  M  |  M  |     |  H  |     |
++-----+-----+-----+-----+-----+-----+-----+-----+
+|     |  %  |  M  |     |     |  M  |     |     |
++-----+-----+-----+-----+-----+-----+-----+-----+
+|  M  |  M  |     |     |  %  |  %  |  M  |  %  |
++-----+-----+-----+-----+-----+-----+-----+-----+
+|     |     |     |     |     |  %  |  M  |     |
++-----+-----+-----+-----+-----+-----+-----+-----+
+|     |     |  %  |  %  |     |  M  |     |  %  |
++-----+-----+-----+-----+-----+-----+-----+-----+
 ```
 
 ### Prerequisites
