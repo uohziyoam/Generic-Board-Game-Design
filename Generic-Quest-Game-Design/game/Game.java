@@ -30,6 +30,7 @@ public class Game {
     public Game() {
         in = new Scanner(System.in);
         herosTeam = new ArrayList<>();
+        board = new Board(8, 8);
 
         initHeros();
         displayStatistics();
@@ -41,7 +42,6 @@ public class Game {
         inMarket = false;
 
         // init board
-        board = new Board(8, 8);
 
         // init locaiton
         board.setPosition(captain, captain.getCurLocation(), null);
@@ -116,16 +116,24 @@ public class Game {
             arr.add(hero);
         }
 
+        HashSet<Integer> common = board.getCOMMON_COORDINATES();
+        System.out.println(common);
+        System.out.println(common.toArray()[0]);
+
         for (String string : arr) {
-            herosTeam.add(new Hero(string, new Coordinate(1, 2)));
+            herosTeam.add(new Hero(string, new Coordinate(board.positionToX((Integer) common.toArray()[0]),
+                    board.positionToY((Integer) common.toArray()[0]))));
         }
 
     }
 
     public void gameProcessing() {
 
+        HashSet<Integer> common = board.getCOMMON_COORDINATES();
         while (!isQuitGame) {
-            if (Math.random() < 0.2 && !inMarket) {
+            if (Math.random() < 0.2 && !inMarket
+                    && !captain.getCurLocation().equals(new Coordinate(board.positionToX((Integer) common.toArray()[0]),
+                            board.positionToY((Integer) common.toArray()[0])))) {
                 FightRound fightRound = new FightRound(herosTeam);
             }
 
@@ -301,35 +309,43 @@ public class Game {
     private Hero marketHeroSelection() {
         String input = "0";
         System.out.println(Color.ANSI_CYAN);
-        System.out.println("WHICH HERO NEED TO ENTER MARKET? (ENTER INDEX!): ");
+        System.out.println("WHICH HERO NEED TO ENTER MARKET? (ENTER INDEX! OR Q/I): ");
 
         for (int i = 0; i < herosTeam.size(); i++) {
             System.out.println(i + ". " + herosTeam.get(i).getName());
         }
         System.out.println(herosTeam.size() + ". " + "QUIT (Q/q)");
+        System.out.println(herosTeam.size() + 1 + ". " + "INFORMATION (I/i)");
         System.out.println(Color.ANSI_RESET);
         input = in.next();
 
         if (input.toUpperCase().equals(VARIABLES.QUIT)) {
             return null;
         }
+        if (input.toUpperCase().equals(VARIABLES.INFORMATION)) {
+            for (Hero hero : herosTeam) {
+                hero.printStatistics();
+            }
+        }
 
         // Hero Selection
         while (Integer.parseInt(input) < 0 || Integer.parseInt(input) >= herosTeam.size()) {
             System.out.println("INVALID INPUT!");
             System.out.println(Color.ANSI_CYAN);
-            System.out.println("WHICH HERO NEED TO ENTER MARKET? (ENTER INDEX!): ");
+            System.out.println("WHICH HERO NEED TO ENTER MARKET? (ENTER INDEX! OR Q/I): ");
 
             for (int i = 0; i < herosTeam.size(); i++) {
                 System.out.println(i + ". " + herosTeam.get(i).getName());
             }
             System.out.println(herosTeam.size() + ". " + "QUIT (Q/q)");
+            System.out.println(herosTeam.size() + 1 + ". " + "INFORMATION (I/i)");
 
             System.out.println(Color.ANSI_RESET);
             input = in.next();
             if (input.toUpperCase().equals(VARIABLES.QUIT)) {
                 return null;
             }
+
         }
         return herosTeam.get(Integer.parseInt(input));
     }
@@ -349,7 +365,7 @@ public class Game {
 
     private void marketFirstCategoryInstruction() {
         System.out.println(Color.ANSI_CYAN);
-        System.out.println("WHAT CAN I HELP YOU? (ENTER THE FULL STRING!): ");
+        System.out.println("WHAT CAN I HELP YOU? (ENTER THE FULL STRING! OR Q for quit): ");
         System.out.println("1. WEAPONS");
         System.out.println("2. ARMORS");
         System.out.println("3. SPELLS");

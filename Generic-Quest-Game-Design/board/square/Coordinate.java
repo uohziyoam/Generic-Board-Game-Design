@@ -16,4 +16,11 @@ public class Coordinate {
     public int getY() {
         return this.y;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Coordinate coor = (Coordinate) obj;
+
+        return coor.getX() == this.x && coor.getY() == this.y;
+    }
 }

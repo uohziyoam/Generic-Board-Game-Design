@@ -32,6 +32,8 @@ public class FightRound {
 
     private ArrayList<Hero> deadHeros;
 
+    private boolean quit;
+
     static HashMap<Integer, String> menu;
 
     static {
@@ -49,6 +51,7 @@ public class FightRound {
         this.teamOfHeros = teamOfHeros;
         this.teamOfMonsters = new ArrayList<>();
         this.deadHeros = new ArrayList<>();
+        quit = false;
         initFight();
 
         while (!isEnd()) {
@@ -88,13 +91,14 @@ public class FightRound {
 
     private void startFight(int currentHero) {
         System.out.println(Color.ANSI_CYAN);
-        System.out.println("Hero: " + teamOfHeros.get(currentHero).getName());
+        System.out.println("Hero: " + teamOfHeros.get(currentHero).getName() + " (ENTER FULL STRING e.g. USEPOTION)");
         System.out.println("0. " + menu.get(0));
         System.out.println("1. " + menu.get(1));
         System.out.println("2. " + menu.get(2));
         System.out.println("3. " + menu.get(3));
         System.out.println("4. " + menu.get(4));
         System.out.println("5. " + menu.get(5));
+        System.out.println("6. " + menu.get(6));
         System.out.println(Color.ANSI_RESET);
 
         String input = "";
@@ -107,11 +111,11 @@ public class FightRound {
                 if (menu.get(i).equals(input)) {
                     action = i;
                     actionProcessing(i, currentHero);
-
                     break;
                 }
             }
         }
+
         currentHero = currentHero >= teamOfMonsters.size() ? teamOfMonsters.size() - 1 : currentHero;
 
         monsterAttack(currentHero);
@@ -141,9 +145,6 @@ public class FightRound {
 
     private void actionProcessing(int action, int currentHero) {
         currentHero = currentHero >= teamOfMonsters.size() ? teamOfMonsters.size() - 1 : currentHero;
-        System.out.println(currentHero);
-        System.out.println(teamOfMonsters.size());
-        System.out.println(teamOfHeros.size());
         Hero hero = teamOfHeros.get(currentHero);
         Monster monster = teamOfMonsters.get(currentHero);
 
@@ -169,6 +170,7 @@ public class FightRound {
                 }
                 break;
             case 6:
+                quit = true;
                 break;
             default:
                 break;
@@ -437,6 +439,6 @@ public class FightRound {
             System.out.println("HEROS WIN!");
         }
 
-        return areHerosAllDead(teamOfHeros) || areMonstersAllDead(teamOfMonsters);
+        return areHerosAllDead(teamOfHeros) || areMonstersAllDead(teamOfMonsters) || quit;
     }
 }

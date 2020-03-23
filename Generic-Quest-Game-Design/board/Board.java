@@ -155,6 +155,13 @@ public class Board {
         return position % row;
     }
 
+    /**
+     * @return the cOMMON_COORDINATES
+     */
+    public HashSet<Integer> getCOMMON_COORDINATES() {
+        return COMMON_COORDINATES;
+    }
+
     private static int getRandomElement(Set<Integer> set) {
         Integer[] arrayNumbers = set.toArray(new Integer[set.size()]);
 

@@ -147,6 +147,7 @@ public class Hero extends Avatar implements HeroAction {
             }
 
             bag.put(equipment, bag.get(equipment) + 1);
+            System.out.println("Successfully!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -168,7 +169,7 @@ public class Hero extends Avatar implements HeroAction {
 
     @Override
     public void addExperience(double experience) {
-        this.experience += experience;
+        this.experience += experience * 20;
         if (this.experience > this.getLevel() * 10) {
             levelUp();
             super.setMaxHP(getLevel() * 100);
@@ -298,7 +299,7 @@ public class Hero extends Avatar implements HeroAction {
             damage += (dexterity / 10000) * damage;
         }
 
-        return super.makeDamage(damage);
+        return super.makeDamage(damage * 100);
     }
 
     public double manaCostCalculation(Object damageEquipment) {
@@ -416,7 +417,7 @@ public class Hero extends Avatar implements HeroAction {
     @Override
     public void regularAttack(Avatar targetAvatar) {
         if (this.weapon == null) {
-            targetAvatar.receiveDamage(DamageType.PHYSICAL_ATTACK, this.strength * 0.5);
+            targetAvatar.receiveDamage(DamageType.PHYSICAL_ATTACK, this.strength * 0.8);
         } else {
             targetAvatar.receiveDamage(DamageType.PHYSICAL_ATTACK, damageCalculation(weapon));
         }
