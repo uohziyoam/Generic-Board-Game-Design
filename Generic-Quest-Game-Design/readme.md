@@ -110,7 +110,7 @@ java Main
 
 ```
 HOW MANY HEROS DO YOU NEED? (1 ~ 3):
-
+1
 ```
 
 #### - Sample of 1 Hero Player
@@ -165,8 +165,7 @@ WHICH HERO NEED TO ENTER MARKET? (ENTER INDEX! OR Q/I):
 2. INFORMATION (I/i)
 ```
 
-Each cell has a corresponding number, simplly enter **1 ~ 9** can allow the user to move the the correct position.
-To play the game again, type **(Y/N)** into the terminal or command.
+Each cell has a corresponding Letter, **M** stands for Market, **%** stands for Obstacle, **" "** stands for Road, **H** stands for Hero.
 
 ```
 +-----+-----+-----+-----+-----+-----+-----+-----+
