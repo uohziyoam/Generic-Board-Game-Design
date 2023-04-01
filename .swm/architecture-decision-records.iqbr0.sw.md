@@ -14,8 +14,8 @@ Changes the current turn in a two-player game.
 @Override - This method overrides a parent class method.
 
 public void `changeTurn()`<swm-token data-swm-token=":Generic-Board-Game-Design/game_list/tic_tac_toe/TicTacToe.java:111:5:7:`    public void changeTurn() {`"/> - The method signature, returns void and has no parameters.<br/>
-`currentTurn`<swm-token data-swm-token=":Generic-Board-Game-Design/game_list/tic_tac_toe/TicTacToe.java:112:4:4:`        if (currentTurn == teamA[0]) {`"/> - The current player whose turn it is. This will be a reference to either `teamA[0]`<swm-token data-swm-token=":Generic-Board-Game-Design/game_list/tic_tac_toe/TicTacToe.java:112:8:11:`        if (currentTurn == teamA[0]) {`"/> or `teamB[0]`<swm-token data-swm-token=":Generic-Board-Game-Design/game_list/tic_tac_toe/TicTacToe.java:113:5:8:`            currentTurn = teamB[0];`"/>.<br/>
-`teamA[0]`<swm-token data-swm-token=":Generic-Board-Game-Design/game_list/tic_tac_toe/TicTacToe.java:112:8:11:`        if (currentTurn == teamA[0]) {`"/> - The first player on team A.<br/>
+`currentTurn`<swm-token data-swm-token=":Generic-Board-Game-Design/game_list/tic_tac_toe/TicTacToe.java:112:4:4:`        if (currentTurn == teamA_[0]) {`"/> - The current player whose turn it is. This will be a reference to either `teamA_[0]`<swm-token data-swm-token=":Generic-Board-Game-Design/game_list/tic_tac_toe/TicTacToe.java:112:8:11:`        if (currentTurn == teamA_[0]) {`"/> or `teamB[0]`<swm-token data-swm-token=":Generic-Board-Game-Design/game_list/tic_tac_toe/TicTacToe.java:113:5:8:`            currentTurn = teamB[0];`"/>.<br/>
+`teamA_[0]`<swm-token data-swm-token=":Generic-Board-Game-Design/game_list/tic_tac_toe/TicTacToe.java:112:8:11:`        if (currentTurn == teamA_[0]) {`"/> - The first player on team A.<br/>
 `teamB[0]`<swm-token data-swm-token=":Generic-Board-Game-Design/game_list/tic_tac_toe/TicTacToe.java:113:5:8:`            currentTurn = teamB[0];`"/> - The first player on team B.<br/>
 
 If the current turn belongs to the first player on team A,<br/>
@@ -28,7 +28,7 @@ on each call.
 ```java
 110        @Override
 111        public void changeTurn() {
-112            if (currentTurn == teamA[0]) {
+112            if (currentTurn == teamA_[0]) {
 113                currentTurn = teamB[0];
 114            } else {
 115                currentTurn = teamA[0];
