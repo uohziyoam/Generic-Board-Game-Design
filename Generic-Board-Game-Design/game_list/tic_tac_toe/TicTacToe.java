@@ -109,7 +109,7 @@ public class TicTacToe implements GameRule {
 
     @Override
     public void changeTurn() {
-        if (currentTurn == teamA[0]) {
+        if (currentTurn == teamA_[0]) {
             currentTurn = teamB[0];
         } else {
             currentTurn = teamA[0];
